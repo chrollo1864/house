@@ -1,0 +1,95 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+/* Hero Section */
+.hero {
+    height: 60vh;
+    background-size: cover;
+    background-position: center;
+}
+
+.search-bar {
+    width: 80%;
+    max-width: 900px;
+    margin: auto;
+    border-radius: 8px;
+}
+
+/* Property Cards */
+.property-card {
+    border-radius: 10px;
+    transition: transform 0.3s ease-in-out;
+}
+
+    .property-card:hover {
+        transform: scale(1.03);
+    }
+
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+.hero {
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-size: cover;
+    background-position: center;
+    color: white;
+}
+
+.search-bar {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 15px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+    max-width: 900px;
+}
+
+.search-fields {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+    .search-fields input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+.nav-pills .nav-link {
+    color: #000;
+    font-weight: bold;
+}
+
+    .nav-pills .nav-link.active {
+        background: #007bff;
+        color: white;
+    }
