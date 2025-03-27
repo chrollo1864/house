@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace YourNamespace.Pages.Admin
+namespace house.Pages.Admin
 {
     [Authorize(Roles = "Admin")]
     public class IndexModel : PageModel
