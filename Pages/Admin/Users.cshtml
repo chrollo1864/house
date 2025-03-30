@@ -1,12 +1,14 @@
-﻿@page
-@model AdminUsersModel
+@page
+@model HouseApp.Pages.Admin.AdminUsersModel
 @{
     Layout = "/Pages/Admin/_AdminLayout.cshtml";
 }
 
-<h2>Manage Users</h2>
-<table class="table">
-    <thead>
+<h2 class="my-4">Manage Users</h2>
+
+<!-- Display the User List in a Bootstrap Styled Table -->
+<table class="table table-striped table-bordered table-hover">
+    <thead class="thead-dark">
         <tr>
             <th>ID</th>
             <th>Name</th>
@@ -24,10 +26,40 @@
                 <td>@user.Email</td>
                 <td>@user.Role</td>
                 <td>
+                    <!-- Edit Button -->
                     <a asp-page="/Admin/EditUser" asp-route-id="@user.Id" class="btn btn-sm btn-warning">Edit</a>
-                    <a asp-page="/Admin/DeleteUser" asp-route-id="@user.Id" class="btn btn-sm btn-danger">Delete</a>
+
+                    <!-- Delete Button with a POST form -->
+                    <form method="post" asp-page-handler="DeleteUser" class="d-inline">
+                        <input type="hidden" name="id" value="@user.Id" />
+                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this user?')">
+                            Delete
+                        </button>
+                    </form>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+<!-- Form to Add New User -->
+<h3 class="mt-5">Add New User</h3>
+<form method="post" asp-page-handler="AddUser" class="border p-4 rounded shadow-sm">
+    <div class="form-group">
+        <label for="Name">Name:</label>
+        <input type="text" id="Name" class="form-control" asp-for="NewUser.Name" required />
+    </div>
+    <div class="form-group">
+        <label for="Email">Email:</label>
+        <input type="email" id="Email" class="form-control" asp-for="NewUser.Email" required />
+    </div>
+    <div class="form-group">
+        <label for="Password">Password:</label>
+        <input type="password" id="Password" class="form-control" asp-for="NewUser.Password" required />
+    </div>
+    <div class="form-group">
+        <label for="Role">Role:</label>
+        <input type="text" id="Role" class="form-control" asp-for="NewUser.Role" required />
+    </div>
+    <button type="submit" class="btn btn-success">Add User</button>
+</form>
