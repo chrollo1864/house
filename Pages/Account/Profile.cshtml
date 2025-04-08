@@ -1,0 +1,79 @@
+@page
+@model HouseApp.Pages.Account.ProfileModel
+@{
+    ViewData["Title"] = "My Profile";
+    Layout = "_AccountLayout";
+}
+
+<div class="card profile-card">
+    <div class="card-body">
+        <div class="text-center mb-4">
+            @if (!string.IsNullOrEmpty(Model.CurrentUser.ProfileImage))
+            {
+                <img src="@Model.CurrentUser.ProfileImage" class="profile-image mb-3" alt="Profile Image">
+            }
+            else
+            {
+                <img src="/images/default-profile.png" class="profile-image mb-3" alt="Default Profile">
+            }
+            <h3>@Model.CurrentUser.Name</h3>
+            <p class="text-muted">Member since @Model.CurrentUser.RegisteredDate.ToString("MMMM yyyy")</p>
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                @Model.SuccessMessage
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
+        <form method="post" enctype="multipart/form-data" class="mt-4">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Input.Name" class="form-label">Name</label>
+                    <input asp-for="Input.Name" class="form-control" />
+                    <span asp-validation-for="Input.Name" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Input.Email" class="form-label">Email</label>
+                    <input asp-for="Input.Email" class="form-control" readonly />
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Input.PhoneNumber" class="form-label">Phone Number</label>
+                    <input asp-for="Input.PhoneNumber" class="form-control" />
+                    <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Input.NewProfileImage" class="form-label">Change Profile Image</label>
+                    <input type="file" asp-for="Input.NewProfileImage" class="form-control" accept="image/*" />
+                    <span asp-validation-for="Input.NewProfileImage" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Input.Address" class="form-label">Address</label>
+                <textarea asp-for="Input.Address" class="form-control" rows="3"></textarea>
+                <span asp-validation-for="Input.Address" class="text-danger"></span>
+            </div>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save me-2"></i>Save Changes
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

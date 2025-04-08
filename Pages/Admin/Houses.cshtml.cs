@@ -1,22 +1,33 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using HouseApp.Models;
+using Microsoft.AspNetCore.Authorization;
 
-public class AdminHousesModel : PageModel
+namespace HouseApp.Pages.Admin
 {
-    public List<House> Houses { get; set; } = new()
+    [Authorize(Policy = "AdminOnly")]
+    public class HousesModel : PageModel
     {
-        new House { Id = 1, Title = "Modern Villa", Price = 250000 },
-        new House { Id = 2, Title = "Luxury Apartment", Price = 180000 }
-    };
+        private readonly AppDbContext _context;
 
-    public void OnGet()
-    {
+        public HousesModel(AppDbContext context)
+        {
+            _context = context;
+        }
+
+public IList<House> Houses { get; set; }
+public bool IsFeatured { get; set; } // Added IsFeatured property
+
+
+        public async Task OnGetAsync()
+        {
+Houses = await _context.Houses
+    .Where(h => h.IsFeatured) // Include only featured houses
+
+                .Include(h => h.PropertyType)
+                .Include(h => h.Location)
+                .ToListAsync();
+        }
     }
-}
-
-public class House
-{
-    public int Id { get; set; }
-    public string Title { get; set; }
-    public decimal Price { get; set; }
 }

@@ -17,7 +17,7 @@ public class AdminLoansModel : PageModel
 public class Loan
 {
     public int Id { get; set; }
-    public string UserName { get; set; }
+    public required string UserName { get; set; }
     public decimal Amount { get; set; }
-    public string Status { get; set; }
+    public required string Status { get; set; }
 }

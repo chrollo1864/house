@@ -1,0 +1,34 @@
+﻿@page
+@model HouseApp.Pages.Admin.EditUserModel
+@{
+    Layout = "/Pages/Admin/_AdminLayout.cshtml";
+}
+
+<h2>Edit User</h2>
+
+<form method="post" asp-page-handler="Save">
+    <input type="hidden" asp-for="EditUser.Id" />
+
+    <div class="form-group">
+        <label for="Name">Name:</label>
+        <input type="text" id="Name" class="form-control" asp-for="EditUser.Name" required />
+    </div>
+
+    <div class="form-group">
+        <label for="Email">Email:</label>
+        <input type="email" id="Email" class="form-control" asp-for="EditUser.Email" required />
+    </div>
+
+    <div class="form-group">
+        <label for="Role">Role:</label>
+        <input type="text" id="Role" class="form-control" asp-for="EditUser.Role" required />
+    </div>
+
+    <div class="form-group">
+        <label for="NewPassword">New Password:</label>
+        <input type="password" id="NewPassword" class="form-control" asp-for="NewPassword" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+    <a asp-page="/Admin/AdminUsers" class="btn btn-secondary">Cancel</a>
+</form>
