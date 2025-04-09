@@ -38,6 +38,7 @@ namespace HouseApp.Pages.Admin
         public async Task<IActionResult> OnPostAsync()
         {
             // Check if the model state is valid
+            //eto isipan mo ng logic, dito pa lang kasi nag error na, kaya di na siya natuloy doon sa baba
             // if (!ModelState.IsValid)
             // {
             //     // Log model state errors if any
@@ -57,7 +58,6 @@ namespace HouseApp.Pages.Admin
             {
                 uniqueFileName = uniqueFileName + ImageFile.FileName;
                 // Define unique file name
-                House.ImageUrl = ImageFile != null ? "/uploads/houses/" + uniqueFileName : "/uploads/houses/default-image.jpg"; // Set image URL
             }
             // else
             // {
@@ -75,7 +75,7 @@ namespace HouseApp.Pages.Admin
                 Console.WriteLine("Try" + ImageFile.FileName);
             }
 
-            House.ImageUrl = filePath;
+            House.ImageUrl = uniqueFileName;
 
             // }
 
