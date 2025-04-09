@@ -1,18 +1,33 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+using HouseApp.Models; // Ensure this namespace is included
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 public class IndexModel : PageModel
 {
-    public List<Property> Properties { get; set; }
+    private readonly AppDbContext _context; // Injecting the context
 
-    public void OnGet()
+    public IndexModel(AppDbContext context)
     {
-        Properties = new List<Property>
-        {
-            new Property { Title = "Luxury Villa", Price = "$500,000", Size = "3500", ImageUrl = "/images/house1.jpg" },
-            new Property { Title = "Modern Apartment", Price = "$250,000", Size = "1200", ImageUrl = "/images/house2.jpg" },
-            new Property { Title = "Beach House", Price = "$750,000", Size = "5000", ImageUrl = "/images/house3.jpg" }
-        };
+        _context = context;
+    }
+
+    public List<House> Properties { get; set; }
+
+    public async Task OnGetAsync() // Making the method async
+    {
+        Properties = await _context.Houses
+            .Include(h => h.PropertyType) // Ensure PropertyType is included
+            .Where(h => h.IsFeatured) // Assuming IsFeatured is a property in the House model
+            .ToListAsync();
+
+        var villas = Properties.Where(p => p.PropertyTypeId == 1).Take(10).ToList(); // Assuming 1 is the ID for Villa
+        var apartments = Properties.Where(p => p.PropertyTypeId == 2).Take(10).ToList(); // Assuming 2 is the ID for Apartment
+        var houses = Properties.Where(p => p.PropertyTypeId == 3).Take(10).ToList(); // Assuming 3 is the ID for House
+
+        Properties = villas.Concat(apartments).Concat(houses).ToList();
     }
 }
 

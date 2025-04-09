@@ -20,6 +20,9 @@ namespace HouseApp.Pages.Admin
         [BindProperty]
         public User NewUser { get; set; } = new User(); // Ensuring NewUser is not null
 
+        [BindProperty]
+        public string Password { get; set; }
+
         public void OnGet()
         {
             Users = _context.Users.ToList();
@@ -30,6 +33,9 @@ namespace HouseApp.Pages.Admin
         {
             if (ModelState.IsValid)
             {
+                NewUser.PasswordHash = BCrypt.Net.BCrypt.HashPassword(Password);
+                NewUser.RegisteredDate = System.DateTime.Now;
+                
                 _context.Users.Add(NewUser);
                 _context.SaveChanges();
                 return RedirectToPage();
@@ -48,6 +54,5 @@ namespace HouseApp.Pages.Admin
             }
             return RedirectToPage();
         }
-
     }
 }

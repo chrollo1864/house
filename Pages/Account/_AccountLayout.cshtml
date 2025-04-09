@@ -1,0 +1,46 @@
+@{
+    Layout = "_Layout";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Account Menu</h5>
+                    <div class="list-group list-group-flush">
+                        <a asp-page="/Account/Profile" 
+                           class="list-group-item list-group-item-action @(ViewContext.RouteData.Values["Page"].ToString().Contains("Profile") ? "active" : "")">
+                            <i class="fas fa-user me-2"></i> My Profile
+                        </a>
+                        <a asp-page="/Account/ChangePassword" 
+                           class="list-group-item list-group-item-action @(ViewContext.RouteData.Values["Page"].ToString().Contains("ChangePassword") ? "active" : "")">
+                            <i class="fas fa-key me-2"></i> Change Password
+                        </a>
+                        <a asp-page="/Account/MyLoans" 
+                           class="list-group-item list-group-item-action @(ViewContext.RouteData.Values["Page"].ToString().Contains("MyLoans") ? "active" : "")">
+                            <i class="fas fa-file-invoice-dollar me-2"></i> My Loans
+                        </a>
+                        <a asp-page="/Account/Favorites" 
+                           class="list-group-item list-group-item-action @(ViewContext.RouteData.Values["Page"].ToString().Contains("Favorites") ? "active" : "")">
+                            <i class="fas fa-heart me-2"></i> Favorite Properties
+                        </a>
+                        <form method="post" asp-page="/Account/Logout" class="mt-3">
+                            <button type="submit" class="btn btn-danger btn-block w-100">
+                                <i class="fas fa-sign-out-alt me-2"></i> Logout
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            @RenderBody()
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @await RenderSectionAsync("Scripts", required: false)
+    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+}

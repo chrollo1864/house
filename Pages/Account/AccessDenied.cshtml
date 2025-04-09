@@ -1,0 +1,31 @@
+@page
+@model HouseApp.Pages.Account.AccessDeniedModel
+@{
+    ViewData["Title"] = "Access Denied";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow text-center">
+                <div class="card-body p-5">
+                    <div class="mb-4">
+                        <i class="fas fa-exclamation-circle text-danger" style="font-size: 4rem;"></i>
+                    </div>
+                    <h2 class="card-title mb-4">Access Denied</h2>
+                    <p class="card-text text-muted mb-4">
+                        Sorry, you don't have permission to access this page.
+                    </p>
+                    <div class="d-grid gap-3">
+                        <a asp-page="/Index" class="btn btn-primary">
+                            <i class="fas fa-home me-2"></i>Go to Home
+                        </a>
+                        <a asp-page="/Account/Login" class="btn btn-outline-secondary">
+                            <i class="fas fa-sign-in-alt me-2"></i>Login with Different Account
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
