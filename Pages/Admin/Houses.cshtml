@@ -7,7 +7,7 @@
 
 <div class="container">
     <h2>Manage Houses</h2>
-    
+
     <p>
         <a asp-page="CreateHouse" class="btn btn-primary">Add New House</a>
     </p>
@@ -33,8 +33,8 @@
                     {
                         <tr>
                             <td>
-                                <img src="@(string.IsNullOrEmpty(house.ImageUrl) ? "/images/default-house.jpg" : house.ImageUrl)" 
-                                     alt="House Image" style="max-width: 100px;" />
+                                <img src="@(string.IsNullOrEmpty(house.ImageUrl) ? "/images/default-house.jpg" : house.ImageUrl)"
+                                    alt="House Image" style="max-width: 100px;" />
                             </td>
                             <td>@house.Title</td>
                             <td>@house.Address</td>
@@ -50,8 +50,8 @@
                             </td>
                             <td>
                                 <a asp-page="EditHouse" asp-route-id="@house.Id" class="btn btn-sm btn-primary">Edit</a>
-                                <button type="button" class="btn btn-sm btn-danger" 
-                                        onclick="deleteHouse(@house.Id)">Delete</button>
+                                <button type="button" class="btn btn-sm btn-danger"
+                                    onclick="deleteHouse(@house.Id)">Delete</button>
                             </td>
                         </tr>
                     }
