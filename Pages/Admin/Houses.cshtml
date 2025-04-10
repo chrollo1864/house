@@ -1,5 +1,7 @@
 ﻿@page
 @model HouseApp.Pages.Admin.HousesModel
+@using System.Globalization
+
 @{
     ViewData["Title"] = "Manage Houses";
     Layout = "_AdminLayout";
@@ -38,7 +40,7 @@
                             </td>
                             <td>@house.Title</td>
                             <td>@house.Address</td>
-<td>@house.Price.ToString("C2")</td>
+                            <td>@house.Price.ToString("C2", new System.Globalization.CultureInfo("fil-PH"))</td>
                             <td>@(house.PropertyType?.Name ?? "Not Set")</td>
                             <td>
                                 <span class="badge @(house.IsAvailable ? "bg-success" : "bg-danger")">
