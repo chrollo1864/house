@@ -15,26 +15,26 @@ public class IndexModel : PageModel
     }
 
     public List<House> Properties { get; set; }
+    public List<Location> Locations { get; set; } // New property for locations
+    public List<PropertyType> PropertyTypes { get; set; } // New property for property types
 
     public async Task OnGetAsync() // Making the method async
     {
-        Properties = await _context.Houses
-            .Include(h => h.PropertyType) // Ensure PropertyType is included
-            .Where(h => h.IsFeatured) // Assuming IsFeatured is a property in the House model
-            .ToListAsync();
+        try
+        {
+            Properties = await _context.Houses
+                .Include(h => h.PropertyType) // Ensure PropertyType is included
+                .Include(h => h.Location) // Ensure Location is included
+                .Where(h => h.IsFeatured) // Assuming IsFeatured is a property in the House model
+                .ToListAsync();
 
-        var villas = Properties.Where(p => p.PropertyTypeId == 1).Take(10).ToList(); // Assuming 1 is the ID for Villa
-        var apartments = Properties.Where(p => p.PropertyTypeId == 2).Take(10).ToList(); // Assuming 2 is the ID for Apartment
-        var houses = Properties.Where(p => p.PropertyTypeId == 3).Take(10).ToList(); // Assuming 3 is the ID for House
-
-        Properties = villas.Concat(apartments).Concat(houses).ToList();
+            Locations = await _context.Locations.ToListAsync(); // Retrieve locations dynamically
+            PropertyTypes = await _context.PropertyTypes.ToListAsync(); // Retrieve property types dynamically
+        }
+        catch (Exception ex)
+        {
+            // Handle the error (e.g., log it, set a message for the view, etc.)
+            Console.WriteLine($"Error retrieving data: {ex.Message}");
+        }
     }
-}
-
-public class Property
-{
-    public string Title { get; set; }
-    public string Price { get; set; }
-    public string Size { get; set; }
-    public string ImageUrl { get; set; }
 }

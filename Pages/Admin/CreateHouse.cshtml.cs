@@ -37,51 +37,46 @@ namespace HouseApp.Pages.Admin
 
         public async Task<IActionResult> OnPostAsync()
         {
-            // Check if the model state is valid
-            //eto isipan mo ng logic, dito pa lang kasi nag error na, kaya di na siya natuloy doon sa baba
-            // if (!ModelState.IsValid)
-            // {
-            //     // Log model state errors if any
-            //     foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
-            //     {
-            //         Console.WriteLine(error.ErrorMessage);
-            //     }
-            //     // Reload the dropdown lists if validation fails
-            //     PropertyTypes = new SelectList(await _context.PropertyTypes.ToListAsync(), "Id", "Name");
-            //     Locations = new SelectList(await _context.Locations.ToListAsync(), "Id", "Name");
-            //     Console.WriteLine("hey this is error");
-            //     return Page();
-            // }
+            //// Check if the model state is valid
+            //if (!ModelState.IsValid)
+            //{
+            //    // Log model state errors if any
+            //    foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+            //    {
+            //        Console.WriteLine(error.ErrorMessage);
+            //    }
+            //    // Reload the dropdown lists if validation fails
+            //    PropertyTypes = new SelectList(await _context.PropertyTypes.ToListAsync(), "Id", "Name");
+            //    Locations = new SelectList(await _context.Locations.ToListAsync(), "Id", "Name");
+            //    return Page();
+            //}
+
             // Handle image upload or set default image if not provided
             string uniqueFileName = Guid.NewGuid().ToString() + "_";
-            if (ImageFile == null)
+            if (ImageFile != null && ImageFile.Length > 0)
             {
-                uniqueFileName = uniqueFileName + ImageFile.FileName;
-                // Define unique file name
+                string uploadsFolder = Path.Combine(_environment.WebRootPath, "uploads", "houses");
+                Directory.CreateDirectory(uploadsFolder); // Ensure the directory exists
+
+                uniqueFileName += Path.GetFileName(ImageFile.FileName); // Append filename instead of redeclaring
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await ImageFile.CopyToAsync(fileStream);
+                    Console.WriteLine("Saved image: " + uniqueFileName);
+                }
+
+                House.ImageUrl = "/uploads/houses/" + uniqueFileName; // Save with full path
             }
-            // else
-            // {
-
-            string uploadsFolder = Path.Combine(_environment.WebRootPath, "uploads", "houses");
-
-            Directory.CreateDirectory(uploadsFolder); // Ensure directory exists
-
-            uniqueFileName = ImageFile.FileName;
-            string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            else
             {
-                await ImageFile.CopyToAsync(fileStream);
-                Console.WriteLine("Try" + ImageFile.FileName);
+                House.ImageUrl = "/uploads/houses/default-image.jpg"; // fallback if no image is uploaded
             }
-
-            House.ImageUrl = uniqueFileName;
-
-            // }
 
             // Ensure LocationId and PropertyTypeId are set
             House.LocationId = House.LocationId; // Ensure LocationId is set from the form
-            House.PropertyTypeId = House.PropertyTypeId; // Ensure PropertyTypeId is set from the for
+            House.PropertyTypeId = House.PropertyTypeId; // Ensure PropertyTypeId is set from the form
 
             // Set creation timestamp
             House.RegisteredDate = DateTime.UtcNow;
@@ -92,17 +87,13 @@ namespace HouseApp.Pages.Admin
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Hey" + House.ImageUrl);
                 Console.WriteLine($"Error saving house: {ex.Message}");
                 ModelState.AddModelError(string.Empty, "An error occurred while saving the house. Please try again.");
                 // Reload the dropdown lists if an error occurs
-
                 PropertyTypes = new SelectList(await _context.PropertyTypes.ToListAsync(), "Id", "Name");
                 Locations = new SelectList(await _context.Locations.ToListAsync(), "Id", "Name");
-                Console.WriteLine("asd");
                 return Page();
             }
-
 
             TempData["SuccessMessage"] = "House created successfully!";
             return RedirectToPage("./Houses");

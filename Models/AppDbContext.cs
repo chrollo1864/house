@@ -32,6 +32,7 @@ namespace HouseApp.Models
 
         public PropertyType PropertyType { get; set; }
         public Location Location { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 
 

@@ -1,0 +1,25 @@
+@page "{id:int}"
+@model HouseApp.Pages.UserHouseDetailsModel
+@{
+    ViewData["Title"] = "House Details";
+    Layout = "_Layout"; // Use the main layout for non-admin users
+}
+
+<div class="container-fluid p-0">
+    <img src="@(string.IsNullOrEmpty(Model.House.ImageUrl) ? "/images/default-house.jpg" : Model.House.ImageUrl)" alt="House Image" class="img-fluid w-100" style="max-height: 60vh; object-fit: cover;" />
+</div>
+
+<div class="container text-center mt-4">
+    <h2>@Model.House.Title</h2>
+    <p><strong>Address:</strong> @Model.House.Address</p>
+    <p><strong>Price:</strong> @Model.House.Price.ToString("C2")</p>
+    <p><strong>Description:</strong> @Model.House.Description</p>
+    <p><strong>Type:</strong> @(Model.House.PropertyType?.Name ?? "Not Set")</p>
+    <p><strong>Status:</strong> @(Model.House.IsAvailable ? "Available" : "Not Available")</p>
+    <p><strong>Added On:</strong> @Model.House.RegisteredDate.ToString("MMM dd, yyyy")</p>
+    
+    <div class="mt-3">
+        <a asp-page="BuyHouse" asp-route-id="@Model.House.Id" class="btn btn-success">Buy</a>
+        <a asp-page="LoanHouse" asp-route-id="@Model.House.Id" class="btn btn-warning">Loan</a>
+    </div>
+</div>

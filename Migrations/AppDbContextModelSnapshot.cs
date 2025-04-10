@@ -37,6 +37,9 @@ namespace house.Migrations
                     b.Property<int>("Bedrooms")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("longtext");

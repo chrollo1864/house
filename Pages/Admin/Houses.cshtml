@@ -38,7 +38,7 @@
                             </td>
                             <td>@house.Title</td>
                             <td>@house.Address</td>
-                            <td>@house.Price.ToString("C")</td>
+<td>@house.Price.ToString("C2")</td>
                             <td>@(house.PropertyType?.Name ?? "Not Set")</td>
                             <td>
                                 <span class="badge @(house.IsAvailable ? "bg-success" : "bg-danger")">
@@ -49,6 +49,7 @@
                                 @house.RegisteredDate.ToString("MMM dd, yyyy")
                             </td>
                             <td>
+                                <a asp-page="HouseDetails" asp-route-id="@house.Id" class="btn btn-sm btn-info">View Details</a>
                                 <a asp-page="EditHouse" asp-route-id="@house.Id" class="btn btn-sm btn-primary">Edit</a>
                                 <button type="button" class="btn btn-sm btn-danger"
                                     onclick="deleteHouse(@house.Id)">Delete</button>
