@@ -65,6 +65,7 @@ app.MapControllers();
 var uploadsPath = Path.Combine(app.Environment.WebRootPath, "uploads");
 var profilesPath = Path.Combine(uploadsPath, "profiles");
 var housesPath = Path.Combine(uploadsPath, "houses");
+Console.WriteLine(housesPath);
 
 Directory.CreateDirectory(uploadsPath);
 Directory.CreateDirectory(profilesPath);

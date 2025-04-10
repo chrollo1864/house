@@ -14,25 +14,26 @@ namespace HouseApp.Models
         public DbSet<SiteSetting> SiteSettings { get; set; }
     }
 
-public class House
-{
-    public int Id { get; set; }
-    public string Title { get; set; }
-    public string Address { get; set; }
-    public int Bedrooms { get; set; }
-    public decimal Price { get; set; }
-    public bool IsAvailable { get; set; }
-    public bool IsFeatured { get; set; } // Added IsFeatured property
-    public int PropertyTypeId { get; set; }
-    public int LocationId { get; set; }
-    public string ImageUrl { get; set; }
-    public decimal Size { get; set; }
-    public string Description { get; set; }
-    public DateTime RegisteredDate { get; set; }
-    
-    public PropertyType PropertyType { get; set; }
-    public Location Location { get; set; }
-}
+    public class House
+    {
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public string Address { get; set; }
+        public int Bedrooms { get; set; }
+        public decimal Price { get; set; }
+        public bool IsAvailable { get; set; }
+        public bool IsFeatured { get; set; } // Added IsFeatured property
+        public int PropertyTypeId { get; set; }
+        public int LocationId { get; set; }
+        public string ImageUrl { get; set; }
+        public decimal Size { get; set; }
+        public string Description { get; set; }
+        public DateTime RegisteredDate { get; set; }
+
+        public PropertyType PropertyType { get; set; }
+        public Location Location { get; set; }
+        public DateTime CreatedAt { get; set; }
+    }
 
 
     public class User
@@ -47,7 +48,7 @@ public class House
         public string ProfileImage { get; set; }
         public DateTime RegisteredDate { get; set; }
         public DateTime? LastLoginDate { get; set; }
-        
+
         public ICollection<Loan> Loans { get; set; }
     }
 
@@ -71,7 +72,7 @@ public class House
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        
+
         public ICollection<House> Houses { get; set; }
     }
 
@@ -81,7 +82,7 @@ public class House
         public string Name { get; set; }
         public string State { get; set; }
         public string Country { get; set; }
-        
+
         public ICollection<House> Houses { get; set; }
     }
 

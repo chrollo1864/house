@@ -1,0 +1,22 @@
+@page "{id:int}"
+@model HouseApp.Pages.Admin.HouseDetailsModel
+@{
+    ViewData["Title"] = "House Details";
+    Layout = "_AdminLayout";
+}
+
+<div class="container">
+    <h2>House Details</h2>
+
+    <div>
+        <h3>@Model.House.Title</h3>
+        <img src="@(string.IsNullOrEmpty(Model.House.ImageUrl) ? "/images/default-house.jpg" : Model.House.ImageUrl)" alt="House Image" style="max-width: 300px;" />
+        <p><strong>Address:</strong> @Model.House.Address</p>
+        <p><strong>Price:</strong> @Model.House.Price.ToString("C2")</p>
+        <p><strong>Type:</strong> @(Model.House.PropertyType?.Name ?? "Not Set")</p>
+        <p><strong>Status:</strong> <span class="badge @(Model.House.IsAvailable ? "bg-success" : "bg-danger")">@Model.House.IsAvailable ? "Available" : "Not Available"</span></p>
+        <p><strong>Added On:</strong> @Model.House.RegisteredDate.ToString("MMM dd, yyyy")</p>
+        <a asp-page="EditHouse" asp-route-id="@Model.House.Id" class="btn btn-primary">Edit</a>
+        <a asp-page="Houses" class="btn btn-secondary">Back to List</a>
+    </div>
+</div>

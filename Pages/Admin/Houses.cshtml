@@ -1,5 +1,7 @@
 ﻿@page
 @model HouseApp.Pages.Admin.HousesModel
+@using System.Globalization
+
 @{
     ViewData["Title"] = "Manage Houses";
     Layout = "_AdminLayout";
@@ -7,7 +9,7 @@
 
 <div class="container">
     <h2>Manage Houses</h2>
-    
+
     <p>
         <a asp-page="CreateHouse" class="btn btn-primary">Add New House</a>
     </p>
@@ -33,12 +35,12 @@
                     {
                         <tr>
                             <td>
-                                <img src="@(string.IsNullOrEmpty(house.ImageUrl) ? "/images/default-house.jpg" : house.ImageUrl)" 
-                                     alt="House Image" style="max-width: 100px;" />
+                                <img src="@(string.IsNullOrEmpty(house.ImageUrl) ? "/images/default-house.jpg" : house.ImageUrl)"
+                                    alt="House Image" style="max-width: 100px;" />
                             </td>
                             <td>@house.Title</td>
                             <td>@house.Address</td>
-                            <td>@house.Price.ToString("C")</td>
+                            <td>@house.Price.ToString("C2", new System.Globalization.CultureInfo("fil-PH"))</td>
                             <td>@(house.PropertyType?.Name ?? "Not Set")</td>
                             <td>
                                 <span class="badge @(house.IsAvailable ? "bg-success" : "bg-danger")">
@@ -49,9 +51,10 @@
                                 @house.RegisteredDate.ToString("MMM dd, yyyy")
                             </td>
                             <td>
+                                <a asp-page="HouseDetails" asp-route-id="@house.Id" class="btn btn-sm btn-info">View Details</a>
                                 <a asp-page="EditHouse" asp-route-id="@house.Id" class="btn btn-sm btn-primary">Edit</a>
-                                <button type="button" class="btn btn-sm btn-danger" 
-                                        onclick="deleteHouse(@house.Id)">Delete</button>
+                                <button type="button" class="btn btn-sm btn-danger"
+                                    onclick="deleteHouse(@house.Id)">Delete</button>
                             </td>
                         </tr>
                     }
