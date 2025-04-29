@@ -1,0 +1,35 @@
+﻿@page
+@model HouseApp.Pages.SearchResultsModel
+@{
+    ViewData["Title"] = "Search Results";
+}
+
+<div class="container mt-4">
+    <h1 class="text-center">Search Results</h1>
+    @if (Model.Houses != null && Model.Houses.Any())
+    {
+        <div class="row">
+            @foreach (var house in Model.Houses)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <img src="@house.ImageUrl" class="card-img-top" alt="@house.Title">
+                        <div class="card-body">
+                            <h5 class="card-title">@house.Title</h5>
+                            <p class="card-text">
+                                <strong>Price:</strong>₱@house.Price.ToString("N0")<br>
+                                <strong>Bedrooms:</strong> @house.Bedrooms<br>
+                                <strong>Location:</strong> @house.Location.Name
+                            </p>
+                            <a asp-page="/UserHouseDetails" asp-route-id="@house.Id" class="btn btn-primary">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <p class="text-center text-muted">No houses found matching the criteria.</p>
+    }
+</div>

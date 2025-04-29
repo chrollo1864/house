@@ -20,7 +20,10 @@ namespace HouseApp.Pages.Admin
         }
 
         [BindProperty]
-        public House House { get; set; }
+public House House { get; set; } = new House(); // Initialize to avoid null reference
+
+[BindProperty]
+public bool IsFeatured { get; set; } // Add IsFeatured property
 
         [BindProperty]
         public IFormFile ImageFile { get; set; }
@@ -71,7 +74,7 @@ namespace HouseApp.Pages.Admin
             }
             else
             {
-                House.ImageUrl = "/uploads/houses/default-image.jpg"; // fallback if no image is uploaded
+                House.ImageUrl = "/uploads/houses/default-image.png"; // fallback if no image is uploaded
             }
 
             // Ensure LocationId and PropertyTypeId are set

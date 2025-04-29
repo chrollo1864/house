@@ -10,7 +10,7 @@
 
     <div>
         <h3>@Model.House.Title</h3>
-        <img src="@(string.IsNullOrEmpty(Model.House.ImageUrl) ? "/images/default-house.jpg" : Model.House.ImageUrl)" alt="House Image" style="max-width: 300px;" />
+        <img src="@(string.IsNullOrEmpty(Model.House.ImageUrl) ? "/images/default-house.png" : Model.House.ImageUrl)" alt="House Image" style="max-width: 300px;" />
         <p><strong>Address:</strong> @Model.House.Address</p>
         <p><strong>Price:</strong> @Model.House.Price.ToString("C2")</p>
         <p><strong>Type:</strong> @(Model.House.PropertyType?.Name ?? "Not Set")</p>

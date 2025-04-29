@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using HouseApp.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace HouseApp.Pages.Admin
 {
@@ -17,17 +19,13 @@ namespace HouseApp.Pages.Admin
         }
 
         public IList<House> Houses { get; set; }
-        public bool IsFeatured { get; set; } // Added IsFeatured property
-
 
         public async Task OnGetAsync()
         {
             Houses = await _context.Houses
-                .Where(h => h.IsFeatured) // Include only featured houses
-
-                            .Include(h => h.PropertyType)
-                            .Include(h => h.Location)
-                            .ToListAsync();
+                .Include(h => h.PropertyType)
+                .Include(h => h.Location)
+                .ToListAsync();
         }
     }
 }

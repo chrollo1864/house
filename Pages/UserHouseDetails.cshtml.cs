@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using HouseApp.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace HouseApp.Pages
 {
@@ -17,7 +18,11 @@ namespace HouseApp.Pages
 
         public IActionResult OnGet(int id)
         {
-            House = _context.Houses.Find(id);
+            House = _context.Houses
+                .Include(h => h.PropertyType) // Include PropertyType
+                .Include(h => h.Location) // Include Location
+                .FirstOrDefault(h => h.Id == id); // Retrieve the house by ID
+
             if (House == null)
             {
                 return NotFound();

@@ -4,6 +4,7 @@ using HouseApp.Models; // Ensure this namespace is included
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 
 public class IndexModel : PageModel
 {
@@ -18,15 +19,48 @@ public class IndexModel : PageModel
     public List<Location> Locations { get; set; } // New property for locations
     public List<PropertyType> PropertyTypes { get; set; } // New property for property types
 
+    [BindProperty(SupportsGet = true)]
+    public int? propertyTypeId { get; set; }
+
+    [BindProperty(SupportsGet = true)]
+    public int? locationId { get; set; }
+
+    [BindProperty(SupportsGet = true)]
+    public int? minPrice { get; set; }
+
+    [BindProperty(SupportsGet = true)]
+    public int? maxPrice { get; set; }
+
     public async Task OnGetAsync() // Making the method async
     {
         try
         {
-            Properties = await _context.Houses
+            var query = _context.Houses
                 .Include(h => h.PropertyType) // Ensure PropertyType is included
                 .Include(h => h.Location) // Ensure Location is included
-                .Where(h => h.IsFeatured) // Assuming IsFeatured is a property in the House model
-                .ToListAsync();
+                .AsQueryable();
+
+            if (propertyTypeId.HasValue)
+            {
+                query = query.Where(h => h.PropertyTypeId == propertyTypeId.Value);
+            }
+
+            if (locationId.HasValue)
+            {
+                query = query.Where(h => h.LocationId == locationId.Value);
+            }
+
+            if (minPrice.HasValue)
+            {
+                query = query.Where(h => h.Price >= minPrice.Value);
+            }
+
+            if (maxPrice.HasValue)
+            {
+                query = query.Where(h => h.Price <= maxPrice.Value);
+            }
+
+            Properties = await query.ToListAsync();
 
             Locations = await _context.Locations.ToListAsync(); // Retrieve locations dynamically
             PropertyTypes = await _context.PropertyTypes.ToListAsync(); // Retrieve property types dynamically

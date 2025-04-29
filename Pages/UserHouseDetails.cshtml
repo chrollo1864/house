@@ -12,6 +12,7 @@
 <div class="container text-center mt-4">
     <h2>@Model.House.Title</h2>
     <p><strong>Address:</strong> @Model.House.Address</p>
+    <p><strong>Location:</strong> @(Model.House.Location?.Name ?? "Not Set")</p>
     <p><strong>Price:</strong> @Model.House.Price.ToString("C2", new System.Globalization.CultureInfo("fil-PH"))</p>
     <p><strong>Description:</strong> @Model.House.Description</p>
     <p><strong>Type:</strong> @(Model.House.PropertyType?.Name ?? "Not Set")</p>

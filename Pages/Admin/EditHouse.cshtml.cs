@@ -101,6 +101,7 @@ namespace HouseApp.Pages.Admin
             houseToUpdate.PropertyTypeId = House.PropertyTypeId;
             houseToUpdate.LocationId = House.LocationId;
             houseToUpdate.IsAvailable = House.IsAvailable;
+            houseToUpdate.IsFeatured = House.IsFeatured;
 
             try
             {
