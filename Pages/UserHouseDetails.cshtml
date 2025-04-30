@@ -5,22 +5,28 @@
     Layout = "_Layout"; // Use the main layout for non-admin users
 }
 
-<div class="container-fluid p-0">
-    <img src="@(string.IsNullOrEmpty(Model.House.ImageUrl) ? "/images/default-house.jpg" : Model.House.ImageUrl)" alt="House Image" class="img-fluid w-100" style="max-height: 60vh; object-fit: cover;" />
-</div>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-6">
+            <img src="@(string.IsNullOrEmpty(Model.House.ImageUrl) ? "/images/default-house.jpg" : Model.House.ImageUrl)" alt="House Image" class="img-fluid rounded" style="max-height: 80vh; object-fit: contain; width: 100%;" />
+        </div>
+        <div class="col-md-6">
+            <h1 class="mb-3">@Model.House.Title</h1>
+            <h3 class="mb-3" style="color: #cfb379;">
+                @Model.House.Price.ToString("C2", new System.Globalization.CultureInfo("fil-PH"))
+            </h3>
 
-<div class="container text-center mt-4">
-    <h2>@Model.House.Title</h2>
-    <p><strong>Address:</strong> @Model.House.Address</p>
-    <p><strong>Location:</strong> @(Model.House.Location?.Name ?? "Not Set")</p>
-    <p><strong>Price:</strong> @Model.House.Price.ToString("C2", new System.Globalization.CultureInfo("fil-PH"))</p>
-    <p><strong>Description:</strong> @Model.House.Description</p>
-    <p><strong>Type:</strong> @(Model.House.PropertyType?.Name ?? "Not Set")</p>
-    <p><strong>Status:</strong> @(Model.House.IsAvailable ? "Available" : "Not Available")</p>
-    <p><strong>Added On:</strong> @Model.House.RegisteredDate.ToString("MMM dd, yyyy")</p>
-    
-    <div class="mt-3">
-        <a asp-page="BuyHouse" asp-route-id="@Model.House.Id" class="btn btn-success">Buy</a>
-        <a asp-page="LoanHouse" asp-route-id="@Model.House.Id" class="btn btn-warning">Loan</a>
+            <p><strong>Address:</strong> @Model.House.Address</p>
+            <p><strong>Location:</strong> @(Model.House.Location?.Name ?? "Not Set")</p>
+            <p><strong>Type:</strong> @(Model.House.PropertyType?.Name ?? "Not Set")</p>
+            <p><strong>Status:</strong> @(Model.House.IsAvailable ? "Available" : "Not Available")</p>
+            <p><strong>Added On:</strong> @Model.House.RegisteredDate.ToString("MMM dd, yyyy")</p>
+            <hr />
+            <h4>Description</h4>
+            <p>@Model.House.Description</p>
+            <div class="mt-4">
+                <a asp-page="BuyHouse" asp-route-id="@Model.House.Id" class="btn btn-success me-2">Buy</a>
+                <a asp-page="LoanHouse" asp-route-id="@Model.House.Id" class="btn btn-warning">Loan</a>
+            </div>
+        </div>
     </div>
-</div>

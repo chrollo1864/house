@@ -496,6 +496,7 @@ footer.border-top.footer.text-muted {
     background-position: center;
     padding: 100px 0;
     position: relative;
+    margin-top: 5px !important;
 }
 
 .hero::before {
@@ -677,6 +678,21 @@ footer.border-top.footer.text-muted {
     padding: 0.5rem 1rem;
 }
 
+.card-overlay1 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(to top, #030f25, #030f2500);
+    z-index: 1;
+}
+
+.hero .container {
+    z-index: 2;
+    position: relative;
+}
+
 .card-title-text {
     font-weight: bold;
     font-size: 1.1rem;
@@ -747,3 +763,11 @@ footer.border-top.footer.text-muted {
     .carousel-button i {
         pointer-events: none;
     }
+
+.form-label {
+    color: white;
+}
+
+.border-bottom {
+    border-bottom: var(--bs-border-width) var(--bs-border-style) #030f25 !important;
+}
