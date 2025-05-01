@@ -104,125 +104,34 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-document.addEventListener('DOMContentLoaded', function () {
-    const scrollingWrapper = document.getElementById('scrollingWrapper');
-    const progressBar = document.getElementById('progressBar');
-    const btnLeft = document.getElementById('btnLeft');
-    const btnRight = document.getElementById('btnRight');
-
-    // Define the scroll width for each slide
-    const slideWidth = 320; // You can adjust this value as needed
-    const maxScroll = scrollingWrapper.scrollWidth - scrollingWrapper.clientWidth;
-    const progressBarMaxWidth = 100; // 100% width for the progress bar
-
-    // Function to update the progress bar
-    function updateProgressBar() {
-        const scrollLeft = scrollingWrapper.scrollLeft;
-        const scrollPercentage = (scrollLeft / maxScroll) * progressBarMaxWidth;
-        progressBar.style.transition = 'width 0.5s ease'; // Smooth transition
-        progressBar.style.width = `${scrollPercentage}%`;
-    }
-
-    // Move the slide right
-    function moveSlide() {
-        scrollingWrapper.scrollBy({
-            left: slideWidth, // move 320px each time
-            behavior: 'smooth'
-        });
-    }
-
-    // Move the slide left
-    function moveSlideLeft() {
-        scrollingWrapper.scrollBy({
-            left: -slideWidth,
-            behavior: 'smooth'
-        });
-    }
-
-    // Loop the slides back to the beginning when the end is reached
-    function loopSlides() {
-        scrollingWrapper.scrollTo({
-            left: 0,
-            behavior: 'smooth'
-        });
-    }
-
-    // Update progress bar on scroll event for real-time sync
-    scrollingWrapper.addEventListener('scroll', () => {
-        updateProgressBar();
-
-        // If scrolled to or past maxScroll, loop back to start
-        if (scrollingWrapper.scrollLeft >= maxScroll - 1) {
-            loopSlides();
-        }
-    });
-
-    // Auto move every 3s
-    setInterval(() => {
-        if (scrollingWrapper.scrollLeft < maxScroll - 1) { // Only move if not at the end
-            moveSlide();
-        } else {
-            loopSlides(); // Loop to the first slide when the end is reached
-        }
-    }, 3000);
-
-    // Button Controls for manual scroll
-    btnRight.addEventListener('click', () => {
-        moveSlide();
-    });
-
-    btnLeft.addEventListener('click', () => {
-        moveSlideLeft();
-    });
-
-    // Swipe support variables
-    let touchStartX = 0;
-    let touchEndX = 0;
-    const swipeThreshold = 50; // Minimum distance for swipe
-
-    // Touch start event
-    scrollingWrapper.addEventListener('touchstart', (e) => {
-        touchStartX = e.changedTouches[0].screenX;
-        touchStartY = e.changedTouches[0].screenY;
-        isSwiping = false;
-    });
-
-    // Touch move event to detect horizontal swipe and prevent vertical scroll
-    scrollingWrapper.addEventListener('touchmove', (e) => {
-        const touchCurrentX = e.changedTouches[0].screenX;
-        const touchCurrentY = e.changedTouches[0].screenY;
-        const diffX = Math.abs(touchCurrentX - touchStartX);
-        const diffY = Math.abs(touchCurrentY - touchStartY);
-
-        // If horizontal movement is greater than vertical, consider it a swipe and prevent default scrolling
-        if (diffX > diffY) {
-            e.preventDefault();
-            isSwiping = true;
-        }
-    }, { passive: false });
-
-    // Touch end event
-    scrollingWrapper.addEventListener('touchend', (e) => {
-        touchEndX = e.changedTouches[0].screenX;
-        if (isSwiping) {
-            handleSwipeGesture();
-        }
-    });
-
-    // Handle swipe gesture
-    function handleSwipeGesture() {
-        const swipeDistance = touchEndX - touchStartX;
-        if (Math.abs(swipeDistance) > swipeThreshold) {
-            if (swipeDistance > 0) {
-                // Swipe right - move slide left
-                moveSlideLeft();
-            } else {
-                // Swipe left - move slide right
-                moveSlide();
-            }
+var scrollingWrapper = new Swiper('#scrollingWrapper', {
+    autoplay: {
+        delay: 5000,
+        disableOnInteraction: false,
+        pauseOnMouseEnter: true
+    },
+    grabCursor: true,
+    preloadImages: false,
+    lazy: true,
+    spaceBetween: 10,
+    slidesPerView: 1,
+    breakpoints: {
+        576: { slidesPerView: 1 },
+        768: { slidesPerView: 2 },
+        992: { slidesPerView: 3 },
+        1200: { slidesPerView: 4 }
+    },
+    navigation: {
+        nextEl: '#btnRight',
+        prevEl: '#btnLeft'
+    },
+    on: {
+        slideChange: function () {
+            var progress = (this.activeIndex + 1) / this.slides.length * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        },
+        init: function () {
+            document.getElementById('progressBar').style.width = '0%';
         }
     }
-
-    // Initial progress bar update
-    updateProgressBar();
 });
