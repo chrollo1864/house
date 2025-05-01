@@ -735,10 +735,11 @@ footer.border-top.footer.text-muted {
     overflow: hidden;
     border-radius: 2px;
 }
+.progress-bar {
+    border-radius: 12px;
+}
 
 
-
-/* Carousel Buttons */
 .carousel-buttons {
     position: absolute;
     top: 50%;
@@ -751,24 +752,24 @@ footer.border-top.footer.text-muted {
 }
 
 .carousel-button {
-    background-color: #2a3d5f;
-    border: none;
-    border-radius: 10px;
+    border-radius: 0.5rem;
+    background: rgba(236, 236, 236, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
     padding: 8px;
-    color: white;
+    color: #000;
     font-size: 18px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background 0.4s ease;
+    border: none;
 }
 
     .carousel-button:hover {
-        background-color: #cfb379;
-        color: #030f25;
+        background: rgba(236, 236, 236, 0.6);
     }
 
-    .carousel-button i {
-        pointer-events: none;
-    }
 
 .form-label {
     color: white;

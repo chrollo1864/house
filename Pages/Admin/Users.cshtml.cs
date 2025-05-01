@@ -20,13 +20,16 @@ namespace HouseApp.Pages.Admin
 
         public IList<User> Users { get; set; } = new List<User>();
 
+        // Add BindProperty for EditUser model binding
+        [BindProperty]
+        public User EditUser { get; set; }
+
         public async Task OnGetAsync()
         {
             Users = await _context.Users.ToListAsync() ?? new List<User>();
         }
 
-        // Removed OnPostAddUserAsync method as per user request
-
+        // Handle Delete User (using API)
         public async Task<IActionResult> OnPostDeleteUserAsync(int id)
         {
             var user = await _context.Users.FindAsync(id);
@@ -38,28 +41,20 @@ namespace HouseApp.Pages.Admin
             return RedirectToPage();
         }
 
-        public async Task<IActionResult> OnPostEditUserAsync(int id, string name, string email, string role)
+        // Handle Edit User (using POST method)
+        public async Task<IActionResult> OnPostEditUserAsync()
         {
-            // Removed ModelState.IsValid check to test if update works without validation
-            /*
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-            */
-
-            var user = await _context.Users.FindAsync(id);
+            var user = await _context.Users.FindAsync(EditUser.Id);
             if (user == null)
             {
                 return NotFound();
             }
 
-            user.Name = name;
-            user.Email = email;
-            user.Role = role;
+            user.Name = EditUser.Name;
+            user.Email = EditUser.Email;
+            user.Role = EditUser.Role;
 
             await _context.SaveChangesAsync();
-
             return RedirectToPage();
         }
     }
