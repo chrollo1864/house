@@ -1,11 +1,14 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using HouseApp.Models;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 
 namespace HouseApp.Pages.Admin
 {
+    [Authorize(Policy = "AdminOnly")]
     public class AdminUsersModel : PageModel
     {
         private readonly AppDbContext _context;
@@ -15,43 +18,48 @@ namespace HouseApp.Pages.Admin
             _context = context;
         }
 
-        public List<User> Users { get; set; }
+        public IList<User> Users { get; set; } = new List<User>();
 
-        [BindProperty]
-        public User NewUser { get; set; } = new User(); // Ensuring NewUser is not null
-
-        [BindProperty]
-        public string Password { get; set; }
-
-        public void OnGet()
+        public async Task OnGetAsync()
         {
-            Users = _context.Users.ToList();
+            Users = await _context.Users.ToListAsync() ?? new List<User>();
         }
 
-        // POST handler to add a new user
-        public IActionResult OnPostAddUser()
-        {
-            if (ModelState.IsValid)
-            {
-                NewUser.PasswordHash = BCrypt.Net.BCrypt.HashPassword(Password);
-                NewUser.RegisteredDate = System.DateTime.Now;
-                
-                _context.Users.Add(NewUser);
-                _context.SaveChanges();
-                return RedirectToPage();
-            }
-            return Page();
-        }
+        // Removed OnPostAddUserAsync method as per user request
 
-        // POST handler to delete a user
-        public IActionResult OnPostDeleteUser(int id)
+        public async Task<IActionResult> OnPostDeleteUserAsync(int id)
         {
-            var user = _context.Users.Find(id); // Faster than FirstOrDefault
+            var user = await _context.Users.FindAsync(id);
             if (user != null)
             {
                 _context.Users.Remove(user);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
+            return RedirectToPage();
+        }
+
+        public async Task<IActionResult> OnPostEditUserAsync(int id, string name, string email, string role)
+        {
+            // Removed ModelState.IsValid check to test if update works without validation
+            /*
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+            */
+
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            user.Name = name;
+            user.Email = email;
+            user.Role = role;
+
+            await _context.SaveChangesAsync();
+
             return RedirectToPage();
         }
     }

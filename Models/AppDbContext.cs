@@ -17,17 +17,17 @@ namespace HouseApp.Models
     public class House
     {
         public int Id { get; set; }
-        public string Title { get; set; }
-        public string Address { get; set; }
+        public string? Title { get; set; }
+        public string? Address { get; set; }
         public int Bedrooms { get; set; }
         public decimal Price { get; set; }
         public bool IsAvailable { get; set; }
         public bool IsFeatured { get; set; } // Added IsFeatured property
         public int PropertyTypeId { get; set; }
         public int LocationId { get; set; }
-        public string ImageUrl { get; set; }
+        public string? ImageUrl { get; set; }
         public decimal Size { get; set; }
-        public string Description { get; set; }
+        public string? Description { get; set; }
         public DateTime RegisteredDate { get; set; }
 
         public PropertyType PropertyType { get; set; }
@@ -39,13 +39,13 @@ namespace HouseApp.Models
     public class User
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string Email { get; set; }
-        public string PasswordHash { get; set; }
-        public string Role { get; set; }
-        public string PhoneNumber { get; set; }
-        public string Address { get; set; }
-        public string ProfileImage { get; set; }
+        public string? Name { get; set; }
+        public string? Email { get; set; }
+        public string? PasswordHash { get; set; }
+        public string? Role { get; set; }
+        public string? PhoneNumber { get; set; }
+        public string? Address { get; set; }
+        public string? ProfileImage { get; set; }
         public DateTime RegisteredDate { get; set; }
         public DateTime? LastLoginDate { get; set; }
 
@@ -61,7 +61,7 @@ namespace HouseApp.Models
         public double InterestRate { get; set; }
         public int TermMonths { get; set; }
         public DateTime ApplicationDate { get; set; }
-        public string Status { get; set; }  // Pending, Approved, Rejected
+        public string? Status { get; set; }  // Pending, Approved, Rejected
 
         public House House { get; set; }
         public User User { get; set; }
@@ -70,8 +70,8 @@ namespace HouseApp.Models
     public class PropertyType
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
+        public string? Name { get; set; }
+        public string? Description { get; set; }
 
         public ICollection<House> Houses { get; set; }
     }
@@ -79,9 +79,9 @@ namespace HouseApp.Models
     public class Location
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string State { get; set; }
-        public string Country { get; set; }
+        public string? Name { get; set; }
+        public string? State { get; set; }
+        public string? Country { get; set; }
 
         public ICollection<House> Houses { get; set; }
     }
@@ -89,9 +89,9 @@ namespace HouseApp.Models
     public class SiteSetting
     {
         public int Id { get; set; }
-        public string Key { get; set; }
-        public string Value { get; set; }
-        public string Description { get; set; }
+        public string? Key { get; set; }
+        public string? Value { get; set; }
+        public string? Description { get; set; }
         public DateTime LastUpdated { get; set; }
     }
 }

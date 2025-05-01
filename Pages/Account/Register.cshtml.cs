@@ -50,8 +50,8 @@ namespace HouseApp.Pages.Account
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
 
-            [Display(Name = "Profile Image")]
-            public IFormFile ProfileImage { get; set; }
+            //[Display(Name = "Profile Image")]
+            //public IFormFile ProfileImage { get; set; }
         }
 
         public async Task<IActionResult> OnPostAsync()
@@ -64,22 +64,22 @@ namespace HouseApp.Pages.Account
                     return Page();
                 }
 
-                string profileImagePath = null;
-                if (Input.ProfileImage != null)
-                {
-                    string uploadsFolder = Path.Combine(_environment.WebRootPath, "uploads", "profiles");
-                    Directory.CreateDirectory(uploadsFolder); // Ensure directory exists
+                //string profileImagePath = null;
+                //if (Input.ProfileImage != null)
+                //{
+                //    string uploadsFolder = Path.Combine(_environment.WebRootPath, "uploads", "profiles");
+                //    Directory.CreateDirectory(uploadsFolder); // Ensure directory exists
                     
-                    string uniqueFileName = Guid.NewGuid().ToString() + "_" + Input.ProfileImage.FileName;
-                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                //    string uniqueFileName = Guid.NewGuid().ToString() + "_" + Input.ProfileImage.FileName;
+                //    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
                     
-                    using (var fileStream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await Input.ProfileImage.CopyToAsync(fileStream);
-                    }
+                //    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                //    {
+                //        await Input.ProfileImage.CopyToAsync(fileStream);
+                //    }
                     
-                    profileImagePath = "/uploads/profiles/" + uniqueFileName;
-                }
+                //    profileImagePath = "/uploads/profiles/" + uniqueFileName;
+                //}
 
                 var user = new User
                 {
@@ -90,7 +90,7 @@ namespace HouseApp.Pages.Account
                     PasswordHash = BCrypt.Net.BCrypt.HashPassword(Input.Password),
                     Role = "User",
                     RegisteredDate = DateTime.UtcNow,
-                    ProfileImage = profileImagePath
+                    //ProfileImage = profileImagePath
                 };
 
                 _context.Users.Add(user);
