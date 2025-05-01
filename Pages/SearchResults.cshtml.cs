@@ -17,8 +17,15 @@ namespace HouseApp.Pages
 
         public List<House> Houses { get; set; }
 
+        public List<PropertyType> PropertyTypes { get; set; }
+
+        public List<Location> Locations { get; set; }
+
         public IActionResult OnGet(int? PropertyTypeId, int? LocationId, decimal? MinPrice, decimal? MaxPrice)
         {
+            PropertyTypes = _context.PropertyTypes.ToList();
+            Locations = _context.Locations.ToList();
+
             var query = _context.Houses
                 .Include(h => h.PropertyType)
                 .Include(h => h.Location)

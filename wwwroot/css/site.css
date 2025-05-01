@@ -752,12 +752,13 @@ footer.border-top.footer.text-muted {
 }
 
 .carousel-button {
+    width: 30px;
+    height: 105px; /* Increased height for a rectangle */
     border-radius: 0.5rem;
-    background: rgba(236, 236, 236, 0.3);
+    background: #b7b7b7d1;
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-grow: 1;
     padding: 8px;
     color: #000;
     font-size: 18px;
@@ -767,8 +768,9 @@ footer.border-top.footer.text-muted {
 }
 
     .carousel-button:hover {
-        background: rgba(236, 236, 236, 0.6);
+        background: #ffbf47;
     }
+
 
 
 .form-label {
@@ -781,4 +783,12 @@ footer.border-top.footer.text-muted {
 
 .progress, .progress-stacked {
     --bs-progress-bg: #132435;
+}
+
+.form-select {
+    margin-top: .3rem;
+}
+
+.white-bg {
+    background-color: white !important;
 }

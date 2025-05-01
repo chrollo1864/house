@@ -4,24 +4,61 @@
     ViewData["Title"] = "Search Results";
 }
 
-<div class="container mt-4">
-    <h1 class="text-center">Search Results</h1>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Search Results</h1>
+
+    <!-- Filter Form -->
+    <form method="get" class="bg-light p-4 rounded shadow-sm mb-5">
+        <div class="row g-3 align-items-center">
+            <div class="col-md-3">
+                <select class="form-select" name="propertyTypeId" aria-label="Select Property Type">
+                    <option value="">Property Type</option>
+                    @foreach (var pt in Model.PropertyTypes)
+                    {
+                        var selected = pt.Id.ToString() == Request.Query["propertyTypeId"] ? "selected" : null;
+                        <option value="@pt.Id" selected="@selected">@pt.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select class="form-select" name="locationId" aria-label="Select Location">
+                    <option value="">Location</option>
+                    @foreach (var loc in Model.Locations)
+                    {
+                        var selected = loc.Id.ToString() == Request.Query["locationId"] ? "selected" : null;
+                        <option value="@loc.Id" selected="@selected">@loc.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-2">
+                <input type="number" class="form-control white-bg" name="minPrice" placeholder="Min Price" value="@Request.Query["minPrice"]" aria-label="Minimum Price" />
+            </div>
+            <div class="col-md-2">
+                <input type="number" class="form-control white-bg" name="maxPrice" placeholder="Max Price" value="@Request.Query["maxPrice"]" aria-label="Maximum Price" />
+            </div>
+            <div class="col-md-2 d-grid">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Display Results -->
     @if (Model.Houses != null && Model.Houses.Any())
     {
-        <div class="row">
+        <div class="row g-4">
             @foreach (var house in Model.Houses)
             {
-                <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <img src="@house.ImageUrl" class="card-img-top" alt="@house.Title">
-                        <div class="card-body">
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm hover-shadow">
+                        <img src="@house.ImageUrl" class="card-img-top" alt="@house.Title" />
+                        <div class="card-body d-flex flex-column">
                             <h5 class="card-title">@house.Title</h5>
-                            <p class="card-text">
-                                <strong>Price:</strong>₱@house.Price.ToString("N0")<br>
-                                <strong>Bedrooms:</strong> @house.Bedrooms<br>
+                            <p class="card-text mb-4">
+                                <strong>Price:</strong> ₱@house.Price.ToString("N0")<br />
+                                <strong>Bedrooms:</strong> @house.Bedrooms<br />
                                 <strong>Location:</strong> @house.Location.Name
                             </p>
-                            <a asp-page="/UserHouseDetails" asp-route-id="@house.Id" class="btn btn-primary">View Details</a>
+                            <a asp-page="/UserHouseDetails" asp-route-id="@house.Id" class="btn btn-primary mt-auto">View Details</a>
                         </div>
                     </div>
                 </div>
@@ -33,3 +70,10 @@
         <p class="text-center text-muted">No houses found matching the criteria.</p>
     }
 </div>
+
+<style>
+    .hover-shadow:hover {
+        box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+        transition: box-shadow 0.3s ease-in-out;
+    }
+</style>
