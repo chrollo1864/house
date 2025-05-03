@@ -1,0 +1,22 @@
+﻿@page
+@model AddToCartModel
+@{
+    Layout = null;
+}
+
+@if (Model.Confirm == null)
+{
+    <div style="margin: 20px; padding: 20px; border: 1px solid red; background-color: #ffe6e6;">
+        <h3>Warning</h3>
+        <p>The item is already in your cart. Do you want to add it anyway?</p>
+        <form method="get">
+            <input type="hidden" name="ProductId" value="@Model.ProductId" />
+            <button type="submit" name="Confirm" value="true" style="margin-right: 10px;">Add it anyway</button>
+            <button type="submit" name="Confirm" value="false">Cancel</button>
+        </form>
+    </div>
+}
+else
+{
+    <p>Processing...</p>
+}

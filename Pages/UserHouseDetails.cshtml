@@ -2,10 +2,18 @@
 @model HouseApp.Pages.UserHouseDetailsModel
 @{
     ViewData["Title"] = "House Details";
-    Layout = "_Layout"; // Use the main layout for non-admin users
+    Layout = "_Layout";
 }
 
 <div class="container mt-4">
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
     <div class="row">
         <div class="col-md-6">
             <img src="@(string.IsNullOrEmpty(Model.House.ImageUrl) ? "/images/default-house.jpg" : Model.House.ImageUrl)" alt="House Image" class="img-fluid rounded" style="max-height: 80vh; object-fit: contain; width: 100%;" />
@@ -26,7 +34,60 @@
             <p>@Model.House.Description</p>
             <div class="mt-4">
                 <a asp-page="BuyHouse" asp-route-id="@Model.House.Id" class="btn btn-success me-2">Buy</a>
-                <a asp-page="LoanHouse" asp-route-id="@Model.House.Id" class="btn btn-warning">Loan</a>
+                <a asp-page="LoanHouse" asp-route-id="@Model.House.Id" class="btn btn-warning me-2">Loan</a>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <button id="addToCartBtn" class="btn btn-success me-2" data-productid="@Model.House.Id">Add to Cart</button>
+                    <button id="addToFavoriteBtn" class="btn btn-primary" data-productid="@Model.House.Id">Add to Favorite</button>
+                }
+                else
+                {
+                    <a href="/Account/Login" class="btn btn-success me-2">Add to Cart</a>
+                    <a href="/Account/Login" class="btn btn-primary">Add to Favorite</a>
+                }
             </div>
         </div>
     </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById('addToCartBtn')?.addEventListener('click', function () {
+            var productId = this.getAttribute('data-productid');
+            fetch(`/api/Cart/IsInCart?productId=${productId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.isInCart) {
+                        if (confirm('This item is already in your cart. Do you want to add it anyway?')) {
+                            window.location.href = `/AddToCart?ProductId=${productId}&Confirm=true`;
+                        }
+                    } else {
+                        window.location.href = `/AddToCart?ProductId=${productId}`;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking cart:', error);
+                    window.location.href = `/AddToCart?ProductId=${productId}`;
+                });
+        });
+
+        document.getElementById('addToFavoriteBtn')?.addEventListener('click', function () {
+            var productId = this.getAttribute('data-productid');
+            fetch(`/api/Favorites/IsInFavorites?productId=${productId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.isInFavorites) {
+                        if (confirm('This item is already in your favorites. Do you want to add it anyway?')) {
+                            window.location.href = `/Account/AddToFavorite?ProductId=${productId}&Confirm=true`;
+                        }
+                    } else {
+                        window.location.href = `/Account/AddToFavorite?ProductId=${productId}`;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking favorites:', error);
+                    window.location.href = `/Account/AddToFavorite?ProductId=${productId}`;
+                });
+        });
+    </script>
+}

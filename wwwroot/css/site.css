@@ -753,7 +753,7 @@ footer.border-top.footer.text-muted {
 
 .carousel-button {
     width: 30px;
-    height: 105px; /* Increased height for a rectangle */
+    height: 105px; 
     border-radius: 0.5rem;
     background: #b7b7b7d1;
     display: flex;
@@ -768,7 +768,7 @@ footer.border-top.footer.text-muted {
 }
 
     .carousel-button:hover {
-        background: #ffbf47;
+        background: #4a90e2;
     }
 
 

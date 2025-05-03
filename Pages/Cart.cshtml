@@ -1,0 +1,70 @@
+﻿@page
+@model CartModel
+@section Scripts {
+    <script>
+        function toggleEditOptions(itemId) {
+            const editOptions = document.getElementById(`edit-options-${itemId}`);
+            if (editOptions) {
+                editOptions.classList.toggle('d-none');
+            }
+        }
+    </script>
+}
+
+<div class="cart-section">
+    <h1 class="cart-heading">Your Shopping Cart</h1>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    @if (!Model.CartItems.Any())
+    {
+        <div class="alert persistent-alert text-center">
+            <p>Your Shopping Cart has no items.</p>
+            <a asp-page="/Index" class="btn btn-primary">Shop house plans ></a>
+        </div>
+    }
+    else
+    {
+        <div class="cart-items row row-cols-1 row-cols-sm-2 row-cols-md-5 g-4">
+            @foreach (var item in Model.CartItems.Select((value, index) => new { value, index }))
+            {
+                <div class="col">
+                    <div class="card shadow-sm h-100">
+                        <img src="@item.value.ImageUrl" class="card-img-top" alt="@item.value.Name" style="height: 200px; object-fit: cover;" />
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title text-truncate" style="color: white;">@item.value.Name</h5>
+                            <p class="card-text" style="color: #cfb379;">
+                                @(decimal.TryParse(item.value.Price, out var price) ? price.ToString("C2", new System.Globalization.CultureInfo("fil-PH")) : item.value.Price)
+                            </p>
+                            <div class="mt-auto d-flex justify-content-between gap-2">
+                                <form method="post" asp-page-handler="BuyCart" class="m-0 flex-fill">
+                                    <input type="hidden" name="ItemIndex" value="@item.index" />
+                                    <button type="submit" class="btn btn-outline-success w-100 btn-sm">Buy</button>
+                                </form>
+                                <form method="post" asp-page-handler="LoanCart" class="m-0 flex-fill">
+                                    <input type="hidden" name="ItemIndex" value="@item.index" />
+                                    <button type="submit" class="btn btn-outline-warning w-100 btn-sm">Loan</button>
+                                </form>
+                                <form method="post" asp-page-handler="DeleteItem" class="m-0 flex-fill">
+                                    <input type="hidden" name="ItemIndex" value="@item.index" />
+                                    <button type="submit" class="btn btn-outline-danger w-100 btn-sm">Remove</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- Clear Cart Button -->
+        <form method="post" asp-page-handler="ClearCart" class="mt-3">
+            <button type="submit" class="btn btn-danger">Clear Cart</button>
+        </form>
+    }
+</div>
