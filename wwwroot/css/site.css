@@ -792,3 +792,7 @@ footer.border-top.footer.text-muted {
 .white-bg {
     background-color: white !important;
 }
+
+.custom-placeholder::placeholder {
+    color: white !important;
+}

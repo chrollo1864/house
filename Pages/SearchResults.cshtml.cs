@@ -21,7 +21,7 @@ namespace HouseApp.Pages
 
         public List<Location> Locations { get; set; }
 
-        public IActionResult OnGet(int? PropertyTypeId, int? LocationId, decimal? MinPrice, decimal? MaxPrice)
+        public IActionResult OnGet(string title, int? PropertyTypeId, int? LocationId, decimal? MinPrice, decimal? MaxPrice)
         {
             PropertyTypes = _context.PropertyTypes.ToList();
             Locations = _context.Locations.ToList();
@@ -30,6 +30,11 @@ namespace HouseApp.Pages
                 .Include(h => h.PropertyType)
                 .Include(h => h.Location)
                 .AsQueryable();
+
+            if (!string.IsNullOrEmpty(title))
+            {
+                query = query.Where(h => EF.Functions.Like(h.Title, $"%{title}%"));
+            }
 
             if (PropertyTypeId.HasValue)
             {

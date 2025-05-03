@@ -1,0 +1,14 @@
+﻿@page
+@model house.Pages.SearchModel
+@{
+    ViewData["Title"] = "Search";
+}
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Search Houses by Title</h1>
+
+    <form method="get" asp-page="/SearchResults" class="d-flex justify-content-center mb-4">
+        <input type="text" name="title" class="form-control w-50 me-2" placeholder="Enter house title to search" aria-label="Search by title" />
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+</div>

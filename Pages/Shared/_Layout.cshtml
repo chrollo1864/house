@@ -33,6 +33,20 @@
 
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="collectionsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                PROPERTY TYPES
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="collectionsDropdown">
+                                <li><a class="dropdown-item" href="/Villas/">Villas</a></li>
+                                <li><a class="dropdown-item" href="/FamilyHouse/">Family Houses</a></li>
+                                <li><a class="dropdown-item" href="/Apartments/">Apartments</a></li>
+                                <li><a class="dropdown-item" href="/Condominiums/">Condominiums</a></li>
+                                <li><a class="dropdown-item" href="/ModernHouses/">Modern Houses</a></li>
+                                <li><a class="dropdown-item" href="/TownHouses/">Town Houses</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="collectionsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 COLLECTIONS
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="collectionsDropdown">
@@ -68,6 +82,12 @@
                             </li>
                         }
                     </ul>
+                    <form method="get" asp-page="/SearchResults" class="d-flex me-3" role="search">
+                        <input class="form-control form-control-sm me-2 custom-placeholder" type="search" name="title" placeholder="Search houses" aria-label="Search houses" />
+                        <button class="btn btn-outline-primary btn-sm" type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </form>
                     <ul class="navbar-nav">
                         @if (User.Identity.IsAuthenticated)
                         {
