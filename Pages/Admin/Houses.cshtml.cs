@@ -27,13 +27,14 @@ namespace HouseApp.Pages.Admin
             Houses = await _context.Houses
                 .Include(h => h.PropertyType)
                 .Include(h => h.Location)
+                .OrderByDescending(h => h.RegisteredDate)
                 .ToListAsync();
 
             Locations = await _context.Locations.ToListAsync();
             PropertyTypes = await _context.PropertyTypes.ToListAsync();
         }
 
-        public async Task<IActionResult> OnPostAsync(string title, string address, decimal price, int locationId, int propertyTypeId, bool isAvailable)
+        public async Task<IActionResult> OnPostAsync(string title, string address, decimal price, int locationId, int propertyTypeId, bool isAvailable, bool isFeatured)
         {
             if (!ModelState.IsValid)
             {
@@ -48,6 +49,7 @@ namespace HouseApp.Pages.Admin
                 LocationId = locationId,
                 PropertyTypeId = propertyTypeId,
                 IsAvailable = isAvailable,
+                IsFeatured = isFeatured,
                 RegisteredDate = System.DateTime.Now
             };
 
@@ -57,7 +59,7 @@ namespace HouseApp.Pages.Admin
             return RedirectToPage();
         }
 
-        public async Task<IActionResult> OnPostEditAsync(int id, string title, string address, decimal price, int locationId, int propertyTypeId, bool isAvailable)
+        public async Task<IActionResult> OnPostEditAsync(int id, string title, string address, decimal price, int locationId, int propertyTypeId, bool isAvailable, bool isFeatured)
         {
             if (!ModelState.IsValid)
             {
@@ -77,6 +79,7 @@ namespace HouseApp.Pages.Admin
             house.LocationId = locationId;
             house.PropertyTypeId = propertyTypeId;
             house.IsAvailable = isAvailable;
+            house.IsFeatured = isFeatured;
 
             await _context.SaveChangesAsync();
 

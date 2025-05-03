@@ -56,6 +56,23 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group mb-3">
+                            <label asp-for="House.Bathrooms" class="control-label">Bathrooms</label>
+                            <input asp-for="House.Bathrooms" class="form-control" type="number" />
+                            <span asp-validation-for="House.Bathrooms" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label asp-for="House.Floors" class="control-label">Floors</label>
+                            <input asp-for="House.Floors" class="form-control" type="number" />
+                            <span asp-validation-for="House.Floors" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
                             <label asp-for="House.PropertyTypeId" class="control-label">Property Type</label>
                             <select asp-for="House.PropertyTypeId" class="form-control" asp-items="Model.PropertyTypes" required>
                                 <option value="">-- Select Type --</option>

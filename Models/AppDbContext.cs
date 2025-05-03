@@ -20,6 +20,8 @@ namespace HouseApp.Models
         public string? Title { get; set; }
         public string? Address { get; set; }
         public int Bedrooms { get; set; }
+        public int? Bathrooms { get; set; } // Changed to nullable int Bathrooms property
+        public int? Floors { get; set; } // Changed to nullable int Floors property
         public decimal Price { get; set; }
         public bool IsAvailable { get; set; }
         public bool IsFeatured { get; set; } // Added IsFeatured property

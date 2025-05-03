@@ -85,6 +85,22 @@ public bool IsFeatured { get; set; } // Add IsFeatured property
             House.RegisteredDate = DateTime.UtcNow;
             try
             {
+                if (House.IsFeatured)
+                {
+                    int featuredLimit = 5;
+                    var featuredHouses = await _context.Houses
+                        .Where(h => h.IsFeatured)
+                        .OrderBy(h => h.RegisteredDate)
+                        .ToListAsync();
+
+                    if (featuredHouses.Count >= featuredLimit)
+                    {
+                        var oldestFeatured = featuredHouses.First();
+                        oldestFeatured.IsFeatured = false;
+                        _context.Houses.Update(oldestFeatured);
+                    }
+                }
+
                 _context.Houses.Add(House);
                 await _context.SaveChangesAsync();
             }

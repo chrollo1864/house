@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using HouseApp.Models; // Ensure this namespace is included
+using HouseApp.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,6 +16,13 @@ public class IndexModel : PageModel
     }
 
     public List<House> Properties { get; set; }
+    public List<House> FeaturedProperties { get; set; } // Added for featured houses
+    public List<House> Villas { get; set; }
+    public List<House> FamilyHouses { get; set; }
+    public List<House> Apartments { get; set; }
+    public List<House> Condominiums { get; set; }
+    public List<House> ModernHouses { get; set; }
+    public List<House> TownHouses { get; set; }
     public List<Location> Locations { get; set; } // New property for locations
     public List<PropertyType> PropertyTypes { get; set; } // New property for property types
 
@@ -31,13 +38,13 @@ public class IndexModel : PageModel
     [BindProperty(SupportsGet = true)]
     public int? maxPrice { get; set; }
 
-    public async Task OnGetAsync() // Making the method async
+    public async Task OnGetAsync()
     {
         try
         {
             var query = _context.Houses
-                .Include(h => h.PropertyType) // Ensure PropertyType is included
-                .Include(h => h.Location) // Ensure Location is included
+                .Include(h => h.PropertyType)
+                .Include(h => h.Location)
                 .AsQueryable();
 
             if (propertyTypeId.HasValue)
@@ -60,14 +67,57 @@ public class IndexModel : PageModel
                 query = query.Where(h => h.Price <= maxPrice.Value);
             }
 
-            Properties = await query.ToListAsync();
+            Properties = await query
+                .OrderBy(h => h.CreatedAt)
+                .ToListAsync();
 
-            Locations = await _context.Locations.ToListAsync(); // Retrieve locations dynamically
-            PropertyTypes = await _context.PropertyTypes.ToListAsync(); // Retrieve property types dynamically
+            FeaturedProperties = await _context.Houses
+                .Where(h => h.IsFeatured)
+                .OrderByDescending(h => h.RegisteredDate)
+                .Take(8)
+                .ToListAsync();
+
+            Locations = await _context.Locations.ToListAsync();
+            PropertyTypes = await _context.PropertyTypes.ToListAsync();
+
+            Villas = await _context.Houses
+                .Where(p => p.PropertyTypeId == 5)
+                .OrderByDescending(p => p.RegisteredDate)
+                .Take(10)
+                .ToListAsync();
+
+            FamilyHouses = await _context.Houses
+                .Where(p => p.PropertyTypeId == 1)
+                .OrderByDescending(p => p.RegisteredDate)
+                .Take(10)
+                .ToListAsync();
+
+            Apartments = await _context.Houses
+                .Where(p => p.PropertyTypeId == 2)
+                .OrderByDescending(p => p.RegisteredDate)
+                .Take(10)
+                .ToListAsync();
+
+            Condominiums = await _context.Houses
+                .Where(p => p.PropertyTypeId == 4)
+                .OrderByDescending(p => p.RegisteredDate)
+                .Take(10)
+                .ToListAsync();
+
+            ModernHouses = await _context.Houses
+                .Where(p => p.PropertyTypeId == 6)
+                .OrderByDescending(p => p.RegisteredDate)
+                .Take(10)
+                .ToListAsync();
+
+            TownHouses = await _context.Houses
+                .Where(p => p.PropertyTypeId == 3)
+                .OrderByDescending(p => p.RegisteredDate)
+                .Take(10)
+                .ToListAsync();
         }
         catch (Exception ex)
         {
-            // Handle the error (e.g., log it, set a message for the view, etc.)
             Console.WriteLine($"Error retrieving data: {ex.Message}");
         }
     }

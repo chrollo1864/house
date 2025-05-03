@@ -26,6 +26,7 @@
                         <th>Price</th>
                         <th>Type</th>
                         <th>Status</th>
+                        <th>Featured</th>
                         <th>Added On</th>
                         <th>Actions</th>
                     </tr>
@@ -48,11 +49,16 @@
                                 </span>
                             </td>
                             <td>
+                                <span class="badge @(house.IsFeatured ? "bg-warning text-dark" : "bg-secondary")">
+                                    @(house.IsFeatured ? "Featured" : "No")
+                                </span>
+                            </td>
+                            <td>
                                 @house.RegisteredDate.ToString("MMM dd, yyyy")
                             </td>
                             <td>
                                 <button type="button" class="btn btn-sm btn-primary"
-                                        onclick='editHouse(@house.Id, @Html.Raw(System.Text.Json.JsonSerializer.Serialize(house.Title)), @Html.Raw(System.Text.Json.JsonSerializer.Serialize(house.Description ?? "")), @Html.Raw(System.Text.Json.JsonSerializer.Serialize(house.Address)), @house.Price, @house.LocationId, @house.PropertyTypeId, @(house.IsAvailable.ToString().ToLower()))'>
+                                        onclick='editHouse(@house.Id, @Html.Raw(System.Text.Json.JsonSerializer.Serialize(house.Title)), @Html.Raw(System.Text.Json.JsonSerializer.Serialize(house.Description ?? "")), @Html.Raw(System.Text.Json.JsonSerializer.Serialize(house.Address)), @house.Price, @house.LocationId, @house.PropertyTypeId, @(house.IsAvailable.ToString().ToLower()), @(house.IsFeatured.ToString().ToLower()))'>
                                     Edit
                                 </button>
                                 <button type="button" class="btn btn-sm btn-danger"
@@ -124,6 +130,10 @@
                         <input class="form-check-input" type="checkbox" id="editIsAvailable" name="isAvailable" value="true">
                         <label class="form-check-label" for="editIsAvailable">Available</label>
                     </div>
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="editIsFeatured" name="isFeatured" value="true">
+                        <label class="form-check-label" for="editIsFeatured">Featured</label>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -136,7 +146,7 @@
 
 @section Scripts {
     <script>
-        function editHouse(id, title, description, address, price, locationId, propertyTypeId, isAvailable) {
+        function editHouse(id, title, description, address, price, locationId, propertyTypeId, isAvailable, isFeatured) {
             console.log("editHouse called with id:", id);
             document.getElementById('editId').value = id;
             document.getElementById('editTitle').value = title;
@@ -146,6 +156,7 @@
             document.getElementById('editLocationId').value = locationId;
             document.getElementById('editPropertyTypeId').value = propertyTypeId;
             document.getElementById('editIsAvailable').checked = isAvailable;
+            document.getElementById('editIsFeatured').checked = isFeatured;
             new bootstrap.Modal(document.getElementById('editHouseModal')).show();
         }
 
