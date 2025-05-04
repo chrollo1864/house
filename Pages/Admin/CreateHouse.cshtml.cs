@@ -83,6 +83,10 @@ public bool IsFeatured { get; set; } // Add IsFeatured property
 
             // Set creation timestamp
             House.RegisteredDate = DateTime.UtcNow;
+
+            // Assign the bound IsFeatured value to House.IsFeatured
+            House.IsFeatured = IsFeatured;
+
             try
             {
                 if (House.IsFeatured)

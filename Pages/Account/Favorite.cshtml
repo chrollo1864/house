@@ -13,15 +13,6 @@
 
 <div class="favorites-section">
     <h1 class="favorites-heading">Your Favorite Plans</h1>
-
-    @if (TempData["SuccessMessage"] != null)
-    {
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            @TempData["SuccessMessage"]
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    }
-
     @if (!Model.FavoriteItems.Any())
     {
         <div class="alert persistent-alert text-center">

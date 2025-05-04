@@ -13,15 +13,6 @@
 
 <div class="cart-section">
     <h1 class="cart-heading">Your Shopping Cart</h1>
-
-    @if (TempData["SuccessMessage"] != null)
-    {
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            @TempData["SuccessMessage"]
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    }
-
     @if (!Model.CartItems.Any())
     {
         <div class="alert persistent-alert text-center">

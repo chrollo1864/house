@@ -67,14 +67,14 @@ public class IndexModel : PageModel
                 query = query.Where(h => h.Price <= maxPrice.Value);
             }
 
-            Properties = await query
-                .OrderBy(h => h.CreatedAt)
+Properties = await query
+                .OrderByDescending(h => h.RegisteredDate)
                 .ToListAsync();
 
-            FeaturedProperties = await _context.Houses
-                .Where(h => h.IsFeatured)
+FeaturedProperties = await _context.Houses
+                .Where(h => h.IsFeatured && h.PropertyTypeId == 6)
                 .OrderByDescending(h => h.RegisteredDate)
-                .Take(8)
+                .Take(6)
                 .ToListAsync();
 
             Locations = await _context.Locations.ToListAsync();

@@ -84,7 +84,7 @@
 
         <div id="scrollingWrapper" class="swiper-container pb-3">
             <div class="swiper-wrapper">
-                @foreach (var property in Model.Properties.Where(p => p.IsFeatured).OrderByDescending(p => p.CreatedAt).Take(10))
+@foreach (var property in Model.Properties.Where(p => p.IsFeatured).OrderByDescending(p => p.CreatedAt).Take(10))
                 {
                     <div class="swiper-slide">
                         <a href="/UserHouseDetails/@property.Id" class="text-decoration-none">
@@ -117,7 +117,7 @@
     <div class="container-fluid mt-5">
         <h2 class="mb-3" style="color: #cfb379;">Latest Villas</h2>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-4">
-            @foreach (var property in Model.Properties
+@foreach (var property in Model.Properties
             .Where(p => p.PropertyTypeId == 5)
             .OrderByDescending(p => p.CreatedAt)
             .Take(10))
@@ -166,7 +166,7 @@
     <div class="container-fluid mt-5">
         <h2 class="mb-3" style="color: #cfb379;">Latest Apartments</h2>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-4">
-            @foreach (var property in Model.Properties
+@foreach (var property in Model.Properties
             .Where(p => p.PropertyTypeId == 2)
             .OrderByDescending(p => p.CreatedAt)
             .Take(10))
@@ -190,7 +190,7 @@
     <div class="container-fluid mt-5">
         <h2 class="mb-3" style="color: #cfb379;">Latest Condominium</h2>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-4">
-            @foreach (var property in Model.Properties
+@foreach (var property in Model.Properties
             .Where(p => p.PropertyTypeId == 4)
             .OrderByDescending(p => p.CreatedAt)
             .Take(10))
@@ -214,7 +214,7 @@
     <div class="container-fluid mt-5">
         <h2 class="mb-3" style="color: #cfb379;">Latest Modern House</h2>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-4">
-            @foreach (var property in Model.Properties
+@foreach (var property in Model.Properties
             .Where(p => p.PropertyTypeId == 6)
             .OrderByDescending(p => p.CreatedAt)
             .Take(10))
@@ -238,7 +238,7 @@
     <div class="container-fluid mt-5">
         <h2 class="mb-3" style="color: #cfb379;">Latest Town House</h2>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-4">
-            @foreach (var property in Model.Properties
+@foreach (var property in Model.Properties
             .Where(p => p.PropertyTypeId == 3)
             .OrderByDescending(p => p.CreatedAt)
             .Take(10))

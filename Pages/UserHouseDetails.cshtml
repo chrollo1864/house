@@ -6,14 +6,6 @@
 }
 
 <div class="container mt-4">
-    @if (TempData["SuccessMessage"] != null)
-    {
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            @TempData["SuccessMessage"]
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    }
-
     <div class="row">
         <div class="col-md-6">
             <img src="@(string.IsNullOrEmpty(Model.House.ImageUrl) ? "/images/default-house.jpg" : Model.House.ImageUrl)" alt="House Image" class="img-fluid rounded" style="max-height: 80vh; object-fit: contain; width: 100%;" />
