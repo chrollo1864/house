@@ -67,9 +67,20 @@
     }
     else
     {
-        <p class="text-center text-muted">No houses found matching the criteria.</p>
+        <!-- No Results Block -->
+        <div class="row text-center p-4">
+            <div class="col-12 col-md-6 d-flex flex-column justify-content-center align-items-center">
+                <h2 class="mb-3 text-danger fw-bold">No houses found.</h2>
+                <p class="text-muted mb-4">Try adjusting your search criteria to find available properties.</p>
+                <a class="btn btn-primary" asp-page="/Index"><i class="bi bi-arrow-left"></i> Back to Home</a>
+            </div>
+            <div class="col-12 col-md-6 p-3">
+                <img src="~/images/404.png" alt="No Results" class="img-fluid" />
+            </div>
+        </div>
     }
 </div>
+
 
 <style>
     .hover-shadow:hover {

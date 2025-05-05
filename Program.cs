@@ -5,8 +5,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add database context
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
-        new MySqlServerVersion(new Version(8, 0, 32))));
+    options.UseMySql(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        new MySqlServerVersion(new Version(8, 0, 32)),
+        mySqlOptions => mySqlOptions.EnableRetryOnFailure()
+    ));
+
 
 // Add cookie authentication
 builder.Services.AddAuthentication("CookieAuth")
