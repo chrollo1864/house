@@ -7,13 +7,36 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1 0 auto;
+        }
+
+        footer {
+            flex-shrink: 0;
+            background-color: #343a40;
+            color: white;
+            padding: 1rem 0;
+        }
+    </style>
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-0">
             <div class="container-fluid ms-5 me-5">
                 <a class="navbar-brand" asp-page="/Index">
-                    <i class="fas fa-home me-2" ;></i>Real Estate Portal
+                    <i class="fas fa-home me-2"></i>Real Estate Portal
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
                     <span class="navbar-toggler-icon"></span>
@@ -30,7 +53,6 @@
                             </ul>
                         </li>
 
-
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="collectionsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 PROPERTY TYPES
@@ -46,10 +68,10 @@
                         </li>
 
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="collectionsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" id="collectionsDropdown2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 COLLECTIONS
                             </a>
-                            <ul class="dropdown-menu" aria-labelledby="collectionsDropdown">
+                            <ul class="dropdown-menu" aria-labelledby="collectionsDropdown2">
                                 <li><a class="dropdown-item" href="/collections/spring">Spring</a></li>
                                 <li><a class="dropdown-item" href="/collections/summer">Summer</a></li>
                             </ul>
@@ -157,38 +179,38 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         }
+
         <main role="main" class="pb-3 pt-0">
             @RenderBody()
         </main>
-
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="border-top footer mt-auto">
         <div class="container">
             <div class="row">
                 <div class="col-md-4">
-                    <h5 style="color: white;">About Us</h5>
+                    <h5 style="color: #cfb379;">About Us</h5>
                     <p>Your trusted partner in finding the perfect home.</p>
                 </div>
                 <div class="col-md-4">
-                    <h5 style="color: white;">Quick Links</h5>
+                    <h5 style="color: #cfb379;">Quick Links</h5>
                     <ul class="list-unstyled">
-                        <li><a asp-page="/Index">Home</a></li>
-                        <li><a asp-page="/Houses/Search">Search Properties</a></li>
-                        <li><a asp-page="/Privacy">Privacy Policy</a></li>
+                        <li><a asp-page="/Index" class="text-white">Home</a></li>
+                        <li><a asp-page="/Houses/Search" class="text-white">Search Properties</a></li>
+                        <li><a asp-page="/Privacy" class="text-white">Privacy Policy</a></li>
                     </ul>
                 </div>
                 <div class="col-md-4">
-                    <h5 style="color: white;">Contact</h5>
+                    <h5 style="color: #cfb379;">Contact</h5>
                     <ul class="list-unstyled">
-                        <li><i class="fas fa-envelope me-2"></i>contact@realestate.com</li>
+                        <li><a href="/contact">Contact Us</a></li>
                         <li><i class="fas fa-phone me-2"></i>(555) 123-4567</li>
                     </ul>
                 </div>
             </div>
             <hr />
             <div class="text-center">
-                &copy; @DateTime.Now.Year - Real Estate Portal - <a asp-page="/Privacy">Privacy</a>
+                &copy; @DateTime.Now.Year - Real Estate Portal - <a asp-page="/Privacy" class="text-white">Privacy</a>
             </div>
         </div>
     </footer>
