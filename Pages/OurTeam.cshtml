@@ -1,0 +1,29 @@
+﻿@page "/team"
+@model HouseApp.Pages.OurTeamModel
+@{
+    ViewData["Title"] = "Our Team";
+    Layout = "_Layout";
+}
+
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Meet The Team Of The Real Estate Portal!</h1>
+    <p class="text-center">
+        With a passion for property and a commitment to client satisfaction, we specialize in helping individuals and families find their perfect home, investment property, or commercial space. Based in the Philippines, We're a group of students who created this website as a project to make it easier for people to explore different types of homes and maybe even discover what kind of place they’d love to live in.
+    </p>
+    <p class="text-center">
+        Meet our team below and if you need information on building a new home, or assistance finding a home plan that fits your budget,
+        <a href="/contact">email</a> or call us at <strong>(555) 123-4567</strong>. We'd be happy to help.
+    </p>
+
+    <div class="row mt-5">
+        @foreach (var member in Model.TeamMembers)
+        {
+            <div class="col-md-4 text-center mb-4">
+                <img src="@member.ImageUrl" alt="@member.Name" class="rounded-circle img-fluid" style="width: 150px; height: 150px; object-fit: cover;" />
+                <h4 class="mt-3">@member.Name</h4>
+                <p class="text-muted">@member.Position</p>
+                <p>@member.Description</p>
+            </div>
+        }
+    </div>
+</div>

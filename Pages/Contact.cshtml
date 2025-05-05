@@ -1,0 +1,30 @@
+﻿@page
+@model ContactModel
+@{
+    ViewData["Title"] = "Contact";
+}
+
+<div class="container mt-5">
+    <div class="row align-items-center">
+        <div class="col-12 col-md-6 text-center">
+            <img src="~/images/contact.png" alt="Contact Image" class="img-fluid" />
+        </div>
+        <div class="col-12 col-md-6 mt-4 mt-md-0">
+            <h2 class="text-white mb-4">Get in touch with us</h2>
+            <form method="post">
+                <div class="mb-3">
+                    <input asp-for="Email" class="form-control bg-dark text-white" placeholder="Your email here" />
+                </div>
+                <div class="mb-3">
+                    <input asp-for="Subject" class="form-control bg-dark text-white" placeholder="Your subject" />
+                </div>
+                <div class="mb-3">
+                    <textarea asp-for="Message" class="form-control bg-dark text-white" rows="4" placeholder="Your message here"></textarea>
+                </div>
+                <button type="submit" class="btn btn-info w-100">Send</button>
+                <p class="text-success mt-3">@Model.ResultMessage</p>
+            </form>
+
+        </div>
+    </div>
+</div>

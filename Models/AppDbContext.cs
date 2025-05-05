@@ -51,6 +51,9 @@ namespace HouseApp.Models
         public DateTime RegisteredDate { get; set; }
         public DateTime? LastLoginDate { get; set; }
 
+        public string? PasswordResetToken { get; set; }
+        public DateTime? PasswordResetTokenExpiration { get; set; }
+
         public ICollection<Loan> Loans { get; set; }
     }
 

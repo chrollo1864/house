@@ -32,6 +32,9 @@ builder.Services.AddRazorPages(options =>
     options.Conventions.AuthorizeFolder("/Admin", "AdminOnly");
 });
 
+// Register EmailService for dependency injection
+builder.Services.AddTransient<EmailService>();
+
 // Add API controllers
 builder.Services.AddControllers();
 
