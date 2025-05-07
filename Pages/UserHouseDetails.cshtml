@@ -42,20 +42,20 @@
             <hr />
             <h4>Description</h4>
             <p>@Model.House.Description</p>
-            <div class="mt-4">
-                <a asp-page="BuyHouse" asp-route-id="@Model.House.Id" class="btn btn-success me-2">Buy</a>
-                <form method="get" asp-page="/LoanRegistration">
+            <div class="mt-4 d-flex flex-wrap gap-2">
+                <a asp-page="BuyHouse" asp-route-id="@Model.House.Id" class="btn btn-success">Buy</a>
+                <form method="get" asp-page="/LoanRegistration" class="m-0">
                     <input type="hidden" name="id" value="@Model.House.Id" />
-                    <button type="submit" class="btn btn-warning me-2">Loan</button>
+                    <button type="submit" class="btn btn-warning">Loan</button>
                 </form>
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <button id="addToCartBtn" class="btn btn-success me-2" data-productid="@Model.House.Id">Add to Cart</button>
+                    <button id="addToCartBtn" class="btn btn-success" data-productid="@Model.House.Id">Add to Cart</button>
                     <button id="addToFavoriteBtn" class="btn btn-primary" data-productid="@Model.House.Id">Add to Favorite</button>
                 }
                 else
                 {
-                    <a href="/Account/Login" class="btn btn-success me-2">Add to Cart</a>
+                    <a href="/Account/Login" class="btn btn-success">Add to Cart</a>
                     <a href="/Account/Login" class="btn btn-primary">Add to Favorite</a>
                 }
             </div>

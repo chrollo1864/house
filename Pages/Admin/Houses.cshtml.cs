@@ -31,14 +31,10 @@ namespace HouseApp.Pages.Admin
 
         public async Task OnGetAsync()
         {
-            var totalHouses = await _context.Houses.CountAsync();
+            if (CurrentPage < 1) CurrentPage = 1;
 
-            TotalPages = (int)System.Math.Ceiling(totalHouses / (double)PageSize);
-
-            if (CurrentPage < 1)
-                CurrentPage = 1;
-            if (CurrentPage > TotalPages)
-                CurrentPage = TotalPages;
+            var totalCount = await _context.Houses.CountAsync();
+            TotalPages = (int)System.Math.Ceiling(totalCount / (double)PageSize);
 
             Houses = await _context.Houses
                 .Include(h => h.PropertyType)
@@ -54,8 +50,7 @@ namespace HouseApp.Pages.Admin
 
         public async Task<IActionResult> OnPostAsync(string title, string address, decimal price, int locationId, int propertyTypeId, bool isAvailable, bool isFeatured)
         {
-            if (!ModelState.IsValid)
-                return Page();
+            if (!ModelState.IsValid) return Page();
 
             var house = new House
             {
@@ -72,18 +67,15 @@ namespace HouseApp.Pages.Admin
             _context.Houses.Add(house);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage();
+            return RedirectToPage(new { CurrentPage });
         }
 
         public async Task<IActionResult> OnPostEditAsync(int id, string title, string address, decimal price, int locationId, int propertyTypeId, bool isAvailable, bool isFeatured)
         {
-            if (!ModelState.IsValid)
-                return Page();
+            if (!ModelState.IsValid) return Page();
 
             var house = await _context.Houses.FindAsync(id);
-
-            if (house == null)
-                return NotFound();
+            if (house == null) return NotFound();
 
             house.Title = title;
             house.Address = address;
@@ -94,8 +86,7 @@ namespace HouseApp.Pages.Admin
             house.IsFeatured = isFeatured;
 
             await _context.SaveChangesAsync();
-
-            return RedirectToPage();
+            return RedirectToPage(new { CurrentPage });
         }
     }
 }
