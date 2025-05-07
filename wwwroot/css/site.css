@@ -599,11 +599,11 @@ footer.border-top.footer.text-muted {
         padding: 0.5rem 0;
     }
 
-    .dropdown-menu {
-        border: none;
-        background: transparent;
-        box-shadow: none;
-    }
+.dropdown-menu {
+    border: none;
+    background: #00acc1 !important;
+    box-shadow: none;
+}
 
     .hero {
         padding: 3rem 0;

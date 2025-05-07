@@ -1,0 +1,29 @@
+/* Dropdown hover fix for navbar */
+@media (min-width: 768px) {
+    .nav-item.dropdown:hover > .dropdown-menu {
+        display: block;
+        margin-top: 0; /* Remove gap so it aligns properly */
+    }
+    .nav-item.dropdown > .dropdown-menu {
+        margin-top: 0;
+    }
+}
+
+/* Dropdown menu items styling */
+.navbar .dropdown-menu > li > a {
+    display: block;
+    padding: 0.2rem 2rem 0.2rem 0.5rem;
+    margin: 0.2rem 0;
+    font-weight: 500;
+    font-size: 1.2rem;
+    color: black;
+    border-radius: 0.5rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    
+    .navbar .dropdown-menu > li > a:hover,
+    .navbar .dropdown-menu > li > a:focus {
+    background-color: black;
+    color: white;
+    text-decoration: none;
+    }
