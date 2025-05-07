@@ -12,7 +12,7 @@ public class ContactModel : PageModel
     public async Task<IActionResult> OnPostAsync()
     {
         var emailService = new EmailService();
-        await emailService.SendEmailAsync("alexistwice012@gmail.com", Subject, $"{Email}: {Message}");
+        await emailService.SendEmailAsync("jazzun46@gmail.com", Subject, $"{Email}: {Message}");
         ResultMessage = "Email sent successfully!";
         return Page();
     }

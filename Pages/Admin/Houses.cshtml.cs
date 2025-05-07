@@ -5,6 +5,7 @@ using HouseApp.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace HouseApp.Pages.Admin
 {
@@ -22,12 +23,29 @@ namespace HouseApp.Pages.Admin
         public IList<Location> Locations { get; set; }
         public IList<PropertyType> PropertyTypes { get; set; }
 
+        [BindProperty(SupportsGet = true)]
+        public int CurrentPage { get; set; } = 1;
+
+        public int TotalPages { get; set; }
+        public int PageSize { get; set; } = 10;
+
         public async Task OnGetAsync()
         {
+            var totalHouses = await _context.Houses.CountAsync();
+
+            TotalPages = (int)System.Math.Ceiling(totalHouses / (double)PageSize);
+
+            if (CurrentPage < 1)
+                CurrentPage = 1;
+            if (CurrentPage > TotalPages)
+                CurrentPage = TotalPages;
+
             Houses = await _context.Houses
                 .Include(h => h.PropertyType)
                 .Include(h => h.Location)
                 .OrderByDescending(h => h.RegisteredDate)
+                .Skip((CurrentPage - 1) * PageSize)
+                .Take(PageSize)
                 .ToListAsync();
 
             Locations = await _context.Locations.ToListAsync();
@@ -37,9 +55,7 @@ namespace HouseApp.Pages.Admin
         public async Task<IActionResult> OnPostAsync(string title, string address, decimal price, int locationId, int propertyTypeId, bool isAvailable, bool isFeatured)
         {
             if (!ModelState.IsValid)
-            {
                 return Page();
-            }
 
             var house = new House
             {
@@ -62,16 +78,12 @@ namespace HouseApp.Pages.Admin
         public async Task<IActionResult> OnPostEditAsync(int id, string title, string address, decimal price, int locationId, int propertyTypeId, bool isAvailable, bool isFeatured)
         {
             if (!ModelState.IsValid)
-            {
                 return Page();
-            }
 
             var house = await _context.Houses.FindAsync(id);
 
             if (house == null)
-            {
                 return NotFound();
-            }
 
             house.Title = title;
             house.Address = address;

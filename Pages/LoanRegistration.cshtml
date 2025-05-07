@@ -1,0 +1,167 @@
+﻿@page
+@model LoanRegistrationModel
+@{
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <!-- Back Button -->
+    <div class="mb-3">
+        <button onclick="history.back()" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Back
+        </button>
+    </div>
+
+    <h2 class="text-center text-white bg-dark p-3">Registration For Loan</h2>
+    <form method="post" enctype="multipart/form-data" class="bg-dark text-white p-4 rounded">
+        <div class="row">
+            <div class="col-md-3">
+                <label for="FirstName">First Name</label>
+                <input type="text" id="FirstName" name="FirstName" class="form-control" required />
+            </div>
+            <div class="col-md-3">
+                <label for="MiddleName">Middle Name</label>
+                <input type="text" id="MiddleName" name="MiddleName" class="form-control" />
+            </div>
+            <div class="col-md-3">
+                <label for="LastName">Last Name</label>
+                <input type="text" id="LastName" name="LastName" class="form-control" required />
+            </div>
+            <div class="col-md-3">
+                <label for="Suffix">Suffix</label>
+                <input type="text" id="Suffix" name="Suffix" class="form-control" />
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-4">
+                <label for="Province">Province</label>
+                <input type="text" id="Province" name="Province" class="form-control" required />
+            </div>
+            <div class="col-md-4">
+                <label for="Municipality">Municipality</label>
+                <input type="text" id="Municipality" name="Municipality" class="form-control" required />
+            </div>
+            <div class="col-md-4">
+                <label for="Barangay">Barangay</label>
+                <input type="text" id="Barangay" name="Barangay" class="form-control" required />
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <label for="StreetNo">Street No.</label>
+                <input type="text" id="StreetNo" name="StreetNo" class="form-control" />
+            </div>
+            <div class="col-md-6">
+                <label for="HouseNo">House No.</label>
+                <input type="text" id="HouseNo" name="HouseNo" class="form-control" />
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-3">
+                <label for="Age">Age</label>
+                <input type="number" id="Age" name="Age" class="form-control" required />
+            </div>
+            <div class="col-md-3">
+                <label for="BirthDate">Birth Date</label>
+                <input type="date" id="BirthDate" name="BirthDate" class="form-control" required />
+            </div>
+            <div class="col-md-3">
+                <label for="Sex">Sex</label>
+                <div class="dropdown-container">
+                    <select id="Sex" name="Sex" class="form-control dropdown" required>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label for="ContactNo">Contact No.</label>
+                <input type="text" id="ContactNo" name="ContactNo" class="form-control" required />
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <label for="Email">Email</label>
+                <input type="email" id="Email" name="Email" class="form-control" required />
+            </div>
+            <div class="col-md-6">
+                <label for="Occupation">Occupation</label>
+                <input type="text" id="Occupation" name="Occupation" class="form-control" required />
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-4">
+                <label for="CivilStatus">Civil Status</label>
+                <div class="dropdown-container">
+                    <select id="CivilStatus" name="CivilStatus" class="form-control dropdown" required>
+                        <option value="Single">Single</option>
+                        <option value="Married">Married</option>
+                        <option value="Widowed">Widowed</option>
+                        <option value="Divorced">Divorced</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label for="PreferredPaymentFrequency">Preferred Payment Frequency</label>
+                <div class="dropdown-container">
+                    <select id="PreferredPaymentFrequency" name="PreferredPaymentFrequency" class="form-control dropdown" required>
+                        <option value="Monthly">Monthly</option>
+                        <option value="Quarterly">Quarterly</option>
+                        <option value="Semi-Annually">Semi-Annually</option>
+                        <option value="Annually">Annually</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label for="LoanTerm">Loan Term (Months)</label>
+                <input type="number" id="LoanTerm" name="LoanTerm" class="form-control" required />
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <label for="ValidID">Upload Government Valid ID</label>
+                <input type="file" id="ValidID" name="ValidID" class="form-control" required />
+            </div>
+            <div class="col-md-6">
+                <label for="Payslip">Upload Latest Complete 1 Month Payslip</label>
+                <input type="file" id="Payslip" name="Payslip" class="form-control" required />
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-12 text-center">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        function updateLoanTermLabel() {
+            const frequency = document.getElementById('PreferredPaymentFrequency').value;
+            const label = document.getElementById('LoanTermLabel');
+            switch (frequency) {
+                case 'Monthly':
+                    label.textContent = 'Loan Term (Months)';
+                    break;
+                case 'Quarterly':
+                    label.textContent = 'Loan Term (Quarters)';
+                    break;
+                case 'Semi-Annually':
+                    label.textContent = 'Loan Term (Half-Years)';
+                    break;
+                case 'Annually':
+                    label.textContent = 'Loan Term (Years)';
+                    break;
+                default:
+                    label.textContent = 'Loan Term';
+            }
+        }
+    </script>
+}
+
+
+
+
+
+

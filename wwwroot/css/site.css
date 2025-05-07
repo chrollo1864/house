@@ -341,13 +341,13 @@ tbody td {
 }
 
 .btn-primary {
-    background-color: #4a90e2;
-    border-color: #4a90e2;
+    background-color: #00acc1;
+    border-color: #00acc1;
 }
 
     .btn-primary:hover {
-        background-color: #357abd;
-        border-color: #357abd;
+        background-color: #00acc1;
+        border-color: #00acc1;
     }
 
 /* Cards */
@@ -566,7 +566,7 @@ footer.border-top.footer.text-muted {
 /* Responsive Adjustments */
 @media (max-width: 768px) {
     /* Hide carousel buttons on mobile */
-    .carousel-buttons {
+    .carousel-button {
         display: none !important;
     }
 
@@ -740,21 +740,10 @@ footer.border-top.footer.text-muted {
 }
 
 
-.carousel-buttons {
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    z-index: 10;
-}
-
 .carousel-button {
-    width: 30px;
-    height: 105px; 
-    border-radius: 0.5rem;
+    width: 27px;
+    height: 114px; 
+    border-radius: 5px;
     background: #b7b7b7d1;
     display: flex;
     align-items: center;
@@ -768,7 +757,7 @@ footer.border-top.footer.text-muted {
 }
 
     .carousel-button:hover {
-        background: #4a90e2;
+        background: #00acc1;
     }
 
 
@@ -796,3 +785,42 @@ footer.border-top.footer.text-muted {
 .custom-placeholder::placeholder {
     color: white !important;
 }
+
+.bg-newdark {
+    background-color: #0b1a31 !important;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #00acc1;
+    border-radius: 10px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+}
+
+/* Firefox scrollbar */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #00acc1 transparent;
+}
+
+.custom-outline {
+    color: #00acc1;
+    border: 1px solid #00acc1;
+    background-color: transparent;
+    transition: 0.3s;
+}
+
+    .custom-outline:hover {
+        background-color: #00acc1;
+        color: #fff;
+    }

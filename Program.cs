@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using HouseApp.Models;
+using Pomelo.EntityFrameworkCore.MySql;
 
 var builder = WebApplication.CreateBuilder(args);
 

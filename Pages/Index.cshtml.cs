@@ -16,15 +16,15 @@ public class IndexModel : PageModel
     }
 
     public List<House> Properties { get; set; }
-    public List<House> FeaturedProperties { get; set; } // Added for featured houses
+    public List<House> FeaturedProperties { get; set; }
     public List<House> Villas { get; set; }
     public List<House> FamilyHouses { get; set; }
     public List<House> Apartments { get; set; }
     public List<House> Condominiums { get; set; }
     public List<House> ModernHouses { get; set; }
     public List<House> TownHouses { get; set; }
-    public List<Location> Locations { get; set; } // New property for locations
-    public List<PropertyType> PropertyTypes { get; set; } // New property for property types
+    public List<Location> Locations { get; set; } 
+    public List<PropertyType> PropertyTypes { get; set; } 
 
     [BindProperty(SupportsGet = true)]
     public int? propertyTypeId { get; set; }

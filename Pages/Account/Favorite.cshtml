@@ -1,5 +1,6 @@
 ﻿@page
 @model FavoritesModel
+
 @section Scripts {
     <script>
         function toggleEditOptions(itemId) {
@@ -11,7 +12,7 @@
     </script>
 }
 
-<div class="favorites-section">
+<div class="favorites-section mt-2">
     <h1 class="favorites-heading">Your Favorite Plans</h1>
     @if (!Model.FavoriteItems.Any())
     {
@@ -33,20 +34,16 @@
                             <p class="card-text" style="color: #cfb379;">
                                 @(decimal.TryParse(item.value.Price, out var price) ? price.ToString("C2", new System.Globalization.CultureInfo("fil-PH")) : item.value.Price)
                             </p>
-                            <div class="mt-auto d-flex justify-content-between gap-2">
-                                <form method="post" asp-page-handler="BuyFavorite" class="m-0 flex-fill">
-                                    <input type="hidden" name="ItemIndex" value="@item.index" />
-                                    <button type="submit" class="btn btn-outline-success w-100 btn-sm">Buy</button>
-                                </form>
-                                <form method="post" asp-page-handler="LoanFavorite" class="m-0 flex-fill">
-                                    <input type="hidden" name="ItemIndex" value="@item.index" />
-                                    <button type="submit" class="btn btn-outline-warning w-100 btn-sm">Loan</button>
-                                </form>
-                                <form method="post" asp-page-handler="DeleteItem" class="m-0 flex-fill">
+                            <div class="mt-auto d-flex flex-column gap-2">
+                                <a href="/UserHouseDetails/@item.value.Id" class="btn btn-outline-primary w-100 btn-sm">View Details</a>
+                                @* <a href="/UserHouseDetails/@item.value.Id" class="stretched-link"></a> *@
+
+                                <form method="post" asp-page-handler="DeleteItem" class="m-0">
                                     <input type="hidden" name="ItemIndex" value="@item.index" />
                                     <button type="submit" class="btn btn-outline-danger w-100 btn-sm">Remove</button>
                                 </form>
                             </div>
+
                         </div>
                     </div>
                 </div>

@@ -19,7 +19,7 @@
 
         .progress-bar {
             height: 5px;
-            background-color: #cfb379;
+            background-color: #00acc1;
         }
 
         .text-white-input {
@@ -77,47 +77,58 @@
     </div>
 
     <!-- Featured Properties with Swiper -->
-    <div class="container-fluid mt-5 position-relative text-center">
+    <div class="container-fluid mt-5 text-center">
         <h2 class="mb-3" style="color: #cfb379; font-size: 1.5rem;">
             <i class="bi bi-fire me-1"></i> Our Featured <i class="bi bi-fire ms-1"></i>
         </h2>
 
-        <div id="scrollingWrapper" class="swiper-container pb-3">
-            <div class="swiper-wrapper">
-@foreach (var property in Model.Properties.Where(p => p.IsFeatured).OrderByDescending(p => p.CreatedAt).Take(10))
-                {
-                    <div class="swiper-slide">
-                        <a href="/UserHouseDetails/@property.Id" class="text-decoration-none">
-                            <div class="scrolling-card">
-                                <img src="@property.ImageUrl" alt="@property.Title">
-                                <div class="card-overlay">
-                                    <div class="card-title-text">@property.Title</div>
-                                    <div class="card-info">₱@property.Price.ToString("N0") · @property.Size Sq Ft</div>
+        <!-- Flex container to hold carousel and buttons side-by-side -->
+        <div class="d-flex justify-content-center align-items-center featured-carousel-wrapper">
+            <!-- Swiper Carousel -->
+            <div id="scrollingWrapper" class="swiper-container pb-3 flex-grow-1">
+                <div class="swiper-wrapper">
+                    @foreach (var property in Model.Properties.Where(p => p.IsFeatured).OrderByDescending(p => p.CreatedAt).Take(10))
+                    {
+                        <div class="swiper-slide">
+                            <a href="/UserHouseDetails/@property.Id" class="text-decoration-none">
+                                <div class="scrolling-card">
+                                    <img src="@property.ImageUrl" alt="@property.Title">
+                                    <div class="card-overlay">
+                                        <div class="card-title-text">@property.Title</div>
+                                        <div class="card-info">₱@property.Price.ToString("N0") · @property.Size Sq Ft</div>
+                                    </div>
                                 </div>
-                            </div>
-                        </a>
-                    </div>
-                }
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Buttons in a vertical stack on the right side -->
+            <div class="d-flex flex-column ms-3 mb-3">
+                <button id="btnRight" class="carousel-button mb-2">
+                    <i class="bi bi-chevron-right"></i>
+                </button>
+                <button id="btnLeft" class="carousel-button">
+                    <i class="bi bi-chevron-left"></i>
+                </button>
             </div>
         </div>
-
-        <!-- Carousel Buttons -->
-        <div class="carousel-buttons">
-            <button id="btnRight" class="carousel-button"><i class="bi bi-chevron-right"></i></button>
-            <button id="btnLeft" class="carousel-button"><i class="bi bi-chevron-left"></i></button>
-        </div>
-
-        <!-- Progress Bar -->
-        <div class="progress mt-2" style="height: 5px;">
-            <div id="progressBar" class="progress-bar" role="progressbar"></div>
-        </div>
     </div>
+
+
+
+    <!-- Progress Bar -->
+    <div class="progress mt-1" style="height: 5px;">
+        <div id="progressBar" class="progress-bar" role="progressbar"></div>
+    </div>
+
 
     <!-- Latest Villas -->
     <div class="container-fluid mt-5">
         <h2 class="mb-3" style="color: #cfb379;">Latest Villas</h2>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-4">
-@foreach (var property in Model.Properties
+            @foreach (var property in Model.Properties
             .Where(p => p.PropertyTypeId == 5)
             .OrderByDescending(p => p.CreatedAt)
             .Take(10))
@@ -129,7 +140,7 @@
                             <h5 class="card-title text-truncate" style="color: white;">@property.Title</h5>
                             <p class="card-text" style="color: #cfb379;">₱@property.Price.ToString("N0") · @property.Size Sq Ft</p>
                             <a href="/UserHouseDetails/@property.Id" class="stretched-link"></a>
-                            <a href="/UserHouseDetails/@property.Id" class="btn btn-outline-primary w-100 mt-auto position-relative">View Details</a>
+                            <a href="/UserHouseDetails/@property.Id" class="btn custom-outline w-100 mt-auto position-relative">View Details</a>
                         </div>
                     </div>
                 </div>
@@ -137,14 +148,14 @@
         </div>
     </div>
 
-<!-- Latest Family Houses -->
-<div class="container-fluid mt-5">
+    <!-- Latest Family Houses -->
+    <div class="container-fluid mt-5">
         <h2 class="mb-3" style="color: #cfb379;">Latest Family Houses</h2>
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-4">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-4">
             @foreach (var property in Model.Properties
             .Where(p => p.PropertyTypeId == 1)
             .OrderBy(p => p.CreatedAt)
-            .Take(10)) 
+            .Take(10))
             {
                 <div class="col">
                     <div class="card shadow-sm h-100">
@@ -153,20 +164,20 @@
                             <h5 class="card-title text-truncate" style="color: white;">@property.Title</h5>
                             <p class="card-text" style="color: #cfb379;">₱@property.Price.ToString("N0") · @property.Size Sq Ft</p>
                             <a href="/UserHouseDetails/@property.Id" class="stretched-link"></a>
-                            <a href="/UserHouseDetails/@property.Id" class="btn btn-outline-primary w-100 mt-auto position-relative">View Details</a>
+                            <a href="/UserHouseDetails/@property.Id" class="btn custom-outline w-100 mt-auto position-relative">View Details</a>
                         </div>
                     </div>
                 </div>
             }
+        </div>
     </div>
-</div>
 
 
     <!-- Latest Apartments -->
     <div class="container-fluid mt-5">
         <h2 class="mb-3" style="color: #cfb379;">Latest Apartments</h2>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-4">
-@foreach (var property in Model.Properties
+            @foreach (var property in Model.Properties
             .Where(p => p.PropertyTypeId == 2)
             .OrderByDescending(p => p.CreatedAt)
             .Take(10))
@@ -178,7 +189,7 @@
                             <h5 class="card-title text-truncate" style="color: white;">@property.Title</h5>
                             <p class="card-text" style="color: #cfb379;">₱@property.Price.ToString("N0") · @property.Size Sq Ft</p>
                             <a href="/UserHouseDetails/@property.Id" class="stretched-link"></a>
-                            <a href="/UserHouseDetails/@property.Id" class="btn btn-outline-primary w-100 mt-auto position-relative">View Details</a>
+                            <a href="/UserHouseDetails/@property.Id" class="btn custom-outline w-100 mt-auto position-relative">View Details</a>
                         </div>
                     </div>
                 </div>
@@ -190,7 +201,7 @@
     <div class="container-fluid mt-5">
         <h2 class="mb-3" style="color: #cfb379;">Latest Condominium</h2>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-4">
-@foreach (var property in Model.Properties
+            @foreach (var property in Model.Properties
             .Where(p => p.PropertyTypeId == 4)
             .OrderByDescending(p => p.CreatedAt)
             .Take(10))
@@ -202,7 +213,7 @@
                             <h5 class="card-title text-truncate" style="color: white;">@property.Title</h5>
                             <p class="card-text" style="color: #cfb379;">₱@property.Price.ToString("N0") · @property.Size Sq Ft</p>
                             <a href="/UserHouseDetails/@property.Id" class="stretched-link"></a>
-                            <a href="/UserHouseDetails/@property.Id" class="btn btn-outline-primary w-100 mt-auto position-relative">View Details</a>
+                            <a href="/UserHouseDetails/@property.Id" class="btn custom-outline w-100 mt-auto position-relative">View Details</a>
                         </div>
                     </div>
                 </div>
@@ -214,7 +225,7 @@
     <div class="container-fluid mt-5">
         <h2 class="mb-3" style="color: #cfb379;">Latest Modern House</h2>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-4">
-@foreach (var property in Model.Properties
+            @foreach (var property in Model.Properties
             .Where(p => p.PropertyTypeId == 6)
             .OrderByDescending(p => p.CreatedAt)
             .Take(10))
@@ -226,7 +237,7 @@
                             <h5 class="card-title text-truncate" style="color: white;">@property.Title</h5>
                             <p class="card-text" style="color: #cfb379;">₱@property.Price.ToString("N0") · @property.Size Sq Ft</p>
                             <a href="/UserHouseDetails/@property.Id" class="stretched-link"></a>
-                            <a href="/UserHouseDetails/@property.Id" class="btn btn-outline-primary w-100 mt-auto position-relative">View Details</a>
+                            <a href="/UserHouseDetails/@property.Id" class="btn custom-outline w-100 mt-auto position-relative">View Details</a>
                         </div>
                     </div>
                 </div>
@@ -238,7 +249,7 @@
     <div class="container-fluid mt-5">
         <h2 class="mb-3" style="color: #cfb379;">Latest Town House</h2>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-4">
-@foreach (var property in Model.Properties
+            @foreach (var property in Model.Properties
             .Where(p => p.PropertyTypeId == 3)
             .OrderByDescending(p => p.CreatedAt)
             .Take(10))
@@ -250,7 +261,7 @@
                             <h5 class="card-title text-truncate" style="color: white;">@property.Title</h5>
                             <p class="card-text" style="color: #cfb379;">₱@property.Price.ToString("N0") · @property.Size Sq Ft</p>
                             <a href="/UserHouseDetails/@property.Id" class="stretched-link"></a>
-                            <a href="/UserHouseDetails/@property.Id" class="btn btn-outline-primary w-100 mt-auto position-relative">View Details</a>
+                            <a href="/UserHouseDetails/@property.Id" class="btn custom-outline w-100 mt-auto position-relative">View Details</a>
                         </div>
                     </div>
                 </div>

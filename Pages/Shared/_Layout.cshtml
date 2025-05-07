@@ -107,7 +107,7 @@
                     </ul>
                     <form method="get" asp-page="/SearchResults" class="d-flex me-3" role="search">
                         <input class="form-control form-control-sm me-2 custom-placeholder" type="search" name="title" placeholder="Search houses" aria-label="Search houses" />
-                        <button class="btn btn-outline-primary btn-sm" type="submit">
+                        <button class="btn custom-outline btn-sm" type="submit">
                             <i class="fas fa-search"></i>
                         </button>
                     </form>
@@ -203,7 +203,7 @@
                 <div class="col-md-4">
                     <h5 style="color: #cfb379;">Contact</h5>
                     <ul class="list-unstyled">
-                        <li><a href="/contact">Contact Us</a></li>
+                        <li><a asp-page="/contact" class="text-white">Contact</a></li>
                         <li><i class="fas fa-phone me-2"></i>(555) 123-4567</li>
                     </ul>
                 </div>

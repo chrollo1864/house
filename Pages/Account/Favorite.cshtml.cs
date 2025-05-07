@@ -1,23 +1,47 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Text.Json;
+using System.Collections.Generic;
+using System.Linq;
+using HouseApp.Models;
+using Microsoft.EntityFrameworkCore;
 
 public class FavoritesModel : PageModel
 {
-    public List<Item> FavoriteItems { get; set; } = new List<Item>();
+    private readonly AppDbContext _context;
+
+    public FavoritesModel(AppDbContext context)
+    {
+        _context = context;
+    }
+
+    public List<Item> FavoriteItems { get; set; } = new();
 
     [BindProperty]
     public int ItemIndex { get; set; }
 
     public void OnGet()
     {
-        // Fetch favorite items from session
-        FavoriteItems = HttpContext.Session.Get<List<Item>>("FavoriteItems") ?? new List<Item>();
+        var favoriteItemsFromSession = HttpContext.Session.Get<List<Item>>("FavoriteItems") ?? new List<Item>();
+        var favoriteIds = favoriteItemsFromSession.Select(i => i.Id).ToList();
+
+        var houses = _context.Houses
+            .Where(h => favoriteIds.Contains(h.Id))
+            .Include(h => h.PropertyType)
+            .Include(h => h.Location)
+            .ToList();
+
+        FavoriteItems = houses.Select(h => new Item
+        {
+            Id = h.Id,
+            Name = h.Title,
+            Price = h.Price.ToString(),
+            ImageUrl = h.ImageUrl,
+            propertyTypeId = h.PropertyTypeId
+        }).ToList();
     }
 
     public IActionResult OnPostClearFavorites()
     {
-        // Clear the session key for favorites
         HttpContext.Session.Remove("FavoriteItems");
         TempData["SuccessMessage"] = "Favorites have been cleared.";
         return RedirectToPage();
@@ -25,10 +49,8 @@ public class FavoritesModel : PageModel
 
     public IActionResult OnPostDeleteItem()
     {
-        // Fetch favorite items from session
         FavoriteItems = HttpContext.Session.Get<List<Item>>("FavoriteItems") ?? new List<Item>();
 
-        // Remove the item at the specified index
         if (ItemIndex >= 0 && ItemIndex < FavoriteItems.Count)
         {
             FavoriteItems.RemoveAt(ItemIndex);
@@ -39,37 +61,26 @@ public class FavoritesModel : PageModel
         return RedirectToPage();
     }
 
-    public IActionResult OnPostLoanFavorite()
+    public IActionResult OnPostAddFavorite(int id)
     {
-        FavoriteItems = HttpContext.Session.Get<List<Item>>("FavoriteItems") ?? new List<Item>();
+        var favoriteItems = HttpContext.Session.Get<List<Item>>("FavoriteItems") ?? new List<Item>();
 
-        if (ItemIndex >= 0 && ItemIndex < FavoriteItems.Count)
+        if (!favoriteItems.Any(f => f.Id == id))
         {
-            TempData["SuccessMessage"] = $"Loan process started for {FavoriteItems[ItemIndex].Name}.";
-        }
-        else
-        {
-            TempData["SuccessMessage"] = "Invalid item selected for loan.";
-        }
-
-        return RedirectToPage();
-    }
-
-    public IActionResult OnPostBuyFavorite()
-    {
-        FavoriteItems = HttpContext.Session.Get<List<Item>>("FavoriteItems") ?? new List<Item>();
-
-        if (ItemIndex >= 0 && ItemIndex < FavoriteItems.Count)
-        {
-            TempData["SuccessMessage"] = $"Purchase successful for {FavoriteItems[ItemIndex].Name}.";
-
-            // Optionally remove after purchase
-            FavoriteItems.RemoveAt(ItemIndex);
-            HttpContext.Session.Set("FavoriteItems", FavoriteItems);
-        }
-        else
-        {
-            TempData["SuccessMessage"] = "Invalid item selected for purchase.";
+            var house = _context.Houses.Find(id);
+            if (house != null)
+            {
+                favoriteItems.Add(new Item
+                {
+                    Id = house.Id,
+                    Name = house.Title,
+                    Price = house.Price.ToString(),
+                    ImageUrl = house.ImageUrl,
+                    propertyTypeId = house.PropertyTypeId
+                });
+                HttpContext.Session.Set("FavoriteItems", favoriteItems);
+                TempData["SuccessMessage"] = "Item has been added to favorites.";
+            }
         }
 
         return RedirectToPage();
@@ -77,8 +88,11 @@ public class FavoritesModel : PageModel
 
     public class Item
     {
+        public int Id { get; set; } // This is the House Id
         public string Name { get; set; }
         public string Price { get; set; }
         public string ImageUrl { get; set; }
+        public int? propertyTypeId { get; set; }
     }
 }
+
