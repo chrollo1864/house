@@ -58,6 +58,9 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+// Add middleware to handle 404 errors and redirect to custom 404 page
+app.UseStatusCodePagesWithReExecute("/404");
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
@@ -68,6 +71,7 @@ app.UseSession();
 
 app.MapRazorPages();
 app.MapControllers();
+
 
 // Ensure upload directories exist
 var uploadsPath = Path.Combine(app.Environment.WebRootPath, "uploads");

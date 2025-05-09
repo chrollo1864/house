@@ -825,5 +825,5 @@ footer.border-top.footer.text-muted {
 
     .custom-outline:hover {
         background-color: #00acc1;
-        color: #fff;
+        color: black !important;
     }

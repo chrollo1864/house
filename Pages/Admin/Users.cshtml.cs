@@ -20,9 +20,9 @@ namespace HouseApp.Pages.Admin
 
         public IList<User> Users { get; set; } = new List<User>();
 
-        // Add BindProperty for EditUser model binding
-        [BindProperty]
-        public User EditUser { get; set; }
+        // Removed unused BindProperty EditUser to avoid model validation errors
+        // [BindProperty]
+        // public User EditUser { get; set; }
 
         public async Task OnGetAsync()
         {
@@ -42,20 +42,31 @@ namespace HouseApp.Pages.Admin
         }
 
         // Handle Edit User (using POST method)
-        public async Task<IActionResult> OnPostEditUserAsync()
+        public async Task<IActionResult> OnPostEditUserAsync(int id, string name, string email, string role)
         {
-            var user = await _context.Users.FindAsync(EditUser.Id);
+            if (!ModelState.IsValid)
+            {
+                var errors = string.Join("; ", ModelState.Values
+                    .SelectMany(x => x.Errors)
+                    .Select(x => x.ErrorMessage));
+                return BadRequest("Model validation failed: " + errors);
+            }
+
+            var user = await _context.Users.FindAsync(id);
             if (user == null)
             {
                 return NotFound();
             }
 
-            user.Name = EditUser.Name;
-            user.Email = EditUser.Email;
-            user.Role = EditUser.Role;
+            user.Name = name;
+            user.Email = email;
+            user.Role = role;
 
             await _context.SaveChangesAsync();
-            return RedirectToPage();
+
+            return new JsonResult(new { success = true });
         }
+
+
     }
 }

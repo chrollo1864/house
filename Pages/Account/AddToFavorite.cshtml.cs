@@ -50,6 +50,7 @@ namespace house.Pages.Account
             // Add the new item to favorites
             favorites.Add(new FavoritesModel.Item
             {
+                Id = house.Id,
                 Name = house.Title,
                 Price = house.Price.ToString("C2", new System.Globalization.CultureInfo("fil-PH")),
                 ImageUrl = house.ImageUrl

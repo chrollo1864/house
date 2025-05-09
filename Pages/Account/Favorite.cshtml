@@ -35,9 +35,7 @@
                                 @(decimal.TryParse(item.value.Price, out var price) ? price.ToString("C2", new System.Globalization.CultureInfo("fil-PH")) : item.value.Price)
                             </p>
                             <div class="mt-auto d-flex flex-column gap-2">
-                                <a href="/UserHouseDetails/@item.value.Id" class="btn btn-outline-primary w-100 btn-sm">View Details</a>
-                                @* <a href="/UserHouseDetails/@item.value.Id" class="stretched-link"></a> *@
-
+                                <a href="/UserHouseDetails/@item.value.Id" class="btn custom-outline w-100 btn-sm">View Details</a>
                                 <form method="post" asp-page-handler="DeleteItem" class="m-0">
                                     <input type="hidden" name="ItemIndex" value="@item.index" />
                                     <button type="submit" class="btn btn-outline-danger w-100 btn-sm">Remove</button>

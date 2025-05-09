@@ -50,7 +50,7 @@ namespace HouseApp.Pages.Account
                 {
                     var claims = new List<Claim>
                     {
-                        new Claim(ClaimTypes.Name, user.Email),
+                        new Claim(ClaimTypes.Name, user.Name ?? user.Email),
                         new Claim("Role", user.Role),
                         new Claim("UserId", user.Id.ToString())
                     };

@@ -1,0 +1,64 @@
+@page
+@model HouseApp.Pages.Error404Model
+@{
+    ViewData["Title"] = "404 - Page Not Found";
+    Response.StatusCode = 404;
+}
+
+<div id="error" class="container sm d-flex align-items-center justify-content-center" style="min-height: 70vh;">
+    <div class="row text-center p-2 w-100">
+        <div class="col-12 col-md-6 d-flex flex-column justify-content-center align-items-center">
+            <div class="code display-1 fw-bold text-white">404</div>
+            <p class="desc mb-4 fw-bold text-white">Page not found.</p>
+            <a class="btn btn-info fw-bold" asp-page="/Index">
+                <i class="bi bi-arrow-left"></i> Back to home page
+            </a>
+        </div>
+        <div class="col-12 col-md-6 p-3 d-flex justify-content-center">
+            <img src="~/images/404.png" alt="404" class="img-fluid" style="max-height: 500px;" />
+        </div>
+    </div>
+</div>
+
+
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    #error {
+        flex-grow: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 80vh;
+    }
+
+    .code {
+        font-size: 8rem;
+        color: #ffffff;
+    }
+
+    .desc {
+        font-size: 1.5rem;
+        color: #cccccc;
+    }
+
+    .btn-info {
+        background-color: #00bcd4;
+        border: none;
+        color: black;
+    }
+
+        .btn-info:hover {
+            background-color: #0097a7;
+            color: white;
+        }
+
+    img {
+        margin-top: 1rem;
+    }
+    .txt-white{
+        color: white;
+    }
+</style>
