@@ -9,11 +9,56 @@
     <title>Real Estate - Home</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="~/css/site.css">
+    <style>
+        .scrolling-wrapper {
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .scrolling-card {
+            display: inline-block;
+            width: 300px;
+            margin-right: 1rem;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            overflow: hidden;
+            color: #000;
+        }
+
+            .scrolling-card img {
+                width: 100%;
+                height: 180px;
+                object-fit: cover;
+            }
+
+        .card-overlay {
+            position: absolute;
+            bottom: 0;
+            background: linear-gradient(to top, rgba(255,255,255,0.9), rgba(255,255,255,0.3));
+            width: 100%;
+            padding: 0.5rem 1rem;
+        }
+
+        .card-title-text {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #000;
+        }
+
+        .card-info {
+            font-size: 0.9rem;
+            color: #007bff;
+        }
+
+        .hero h1, .hero p {
+            color: white;
+        }
+    </style>
 </head>
-<body>
+<body class="bg-light text-dark">
 
     <!-- Hero Section -->
-    <div class="hero d-flex align-items-center justify-content-center text-center text-white"
+    <div class="hero d-flex align-items-center justify-content-center text-center"
          style="background: url('/images/background.jpg') no-repeat center center/cover; height: 60vh;">
         <div class="container">
             <h1>Welcome to Our Real Estate Portal</h1>
@@ -52,19 +97,67 @@
         </div>
     </div>
 
-    <!-- Property Listings -->
+    <!-- Trending Properties (Our Featured) -->
     <div class="container mt-5">
-        <h2 class="text-center mb-4">Discover Our Featured Listings</h2>
-        <div class="row">
-            @foreach (var property in Model.Properties)
+        <h2 class="mb-3">Our Featured</h2>
+        <div class="scrolling-wrapper pb-3">
+            @foreach (var property in Model.Properties
+            .Where(p => p.IsFeatured)
+            .OrderByDescending(p => p.CreatedAt)
+            .Take(10))
             {
-                <div class="col-md-4">
-                    <div class="card property-card shadow-sm">
-                        <img src="@property.ImageUrl" class="card-img-top" alt="@property.Title">
+                <a href="/UserHouseDetails/@property.Id" class="text-decoration-none">
+                    <div class="scrolling-card position-relative">
+                        <img src="@property.ImageUrl" alt="@property.Title">
+                        <div class="card-overlay">
+                            <div class="card-title-text">@property.Title</div>
+                            <div class="card-info">₱@property.Price · @property.Size Sq Ft</div>
+                        </div>
+                    </div>
+                </a>
+            }
+        </div>
+    </div>
+
+    <!-- Latest Villas -->
+    <div class="container mt-5">
+        <h2 class="text-dark mb-4">Latest Villas</h2>
+        <div class="row">
+            @foreach (var property in Model.Properties
+            .Where(p => p.PropertyTypeId == 5)
+            .OrderByDescending(p => p.CreatedAt)
+            .Take(6))
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-sm">
+                        <img src="@property.ImageUrl" class="card-img-top" alt="@property.Title" style="height: 200px; object-fit: cover;">
                         <div class="card-body">
                             <h5 class="card-title">@property.Title</h5>
-                            <p class="card-text"><strong>@property.Price</strong> | @property.Size Sq Ft</p>
-                            <a href="#" class="btn btn-primary w-100">View Details</a>
+                            <p class="card-text">₱@property.Price · @property.Size Sq Ft</p>
+                            <a href="/UserHouseDetails/@property.Id" class="btn btn-outline-primary w-100">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Latest Apartments -->
+    <div class="container mt-5">
+        <h2 class="text-dark mb-4">Latest Apartment</h2>
+        <div class="row">
+            @foreach (var property in Model.Properties
+            .Where(p => p.PropertyTypeId == 2)
+            .OrderByDescending(p => p.CreatedAt)
+            .Take(6))
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-sm">
+                        <img src="@property.ImageUrl" class="card-img-top" alt="@property.Title" style="height: 200px; object-fit: cover;">
+                        <div class="card-body">
+                            <h5 class="card-title">@property.Title</h5>
+                            <p class="card-text">₱@property.Price · @property.Size Sq Ft</p>
+                            <a href="/UserHouseDetails/@property.Id" class="btn btn-outline-primary w-100">View Details</a>
                         </div>
                     </div>
                 </div>
