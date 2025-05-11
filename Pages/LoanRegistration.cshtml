@@ -135,6 +135,14 @@
     </form>
 </div>
 
+@if (TempData["SuccessMessage"] != null)
+{
+    <script>
+        alert('@TempData["SuccessMessage"]');
+        window.location.href = '/';
+    </script>
+}
+
 @section Scripts {
     <script>
         function updateLoanTermLabel() {

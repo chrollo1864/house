@@ -4,30 +4,127 @@
     Layout = "/Pages/Admin/_AdminLayout.cshtml";
 }
 
-<h2>Manage Loans</h2>
-<table class="table">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>User</th>
-            <th>Amount</th>
-            <th>Status</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var loan in Model.Loans)
-        {
-            <tr>
-                <td>@loan.Id</td>
-                <td>@loan.UserName</td>
-                <td>@loan.Amount</td>
-                <td>@loan.Status</td>
-                <td>
-                    <a asp-page="/Admin/EditLoan" asp-route-id="@loan.Id" class="btn btn-sm btn-warning">Edit</a>
-                    <a asp-page="/Admin/DeleteLoan" asp-route-id="@loan.Id" class="btn btn-sm btn-danger">Delete</a>
-                </td>
-            </tr>
+<div class="container">
+    <h2 class="mb-3">Manage Loans</h2>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>User</th>
+                    <th>Application Date</th>
+                    <th>Status</th>
+                    <th>Amount</th>
+                    <th>Term (Months)</th>
+                    <th>First Name</th>
+                    <th>Middle Name</th>
+                    <th>Last Name</th>
+                    <th>Suffix</th>
+                    <th>Province</th>
+                    <th>Municipality</th>
+                    <th>Barangay</th>
+                    <th>Street No</th>
+                    <th>House No</th>
+                    <th>Age</th>
+                    <th>Birth Date</th>
+                    <th>Sex</th>
+                    <th>Contact No</th>
+                    <th>Email</th>
+                    <th>Occupation</th>
+                    <th>Civil Status</th>
+                    <th>Preferred Payment Frequency</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var loan in Model.Loans)
+                {
+                    <tr>
+                        <td>@loan.Id</td>
+                        <td>@loan.User.Name</td>
+                        <td>@loan.ApplicationDate.ToShortDateString()</td>
+                        <td>@loan.Status</td>
+                        <td>@loan.Amount</td>
+                        <td>@loan.TermMonths</td>
+                        <td>@loan.FirstName</td>
+                        <td>@loan.MiddleName</td>
+                        <td>@loan.LastName</td>
+                        <td>@loan.Suffix</td>
+                        <td>@loan.Province</td>
+                        <td>@loan.Municipality</td>
+                        <td>@loan.Barangay</td>
+                        <td>@loan.StreetNo</td>
+                        <td>@loan.HouseNo</td>
+                        <td>@loan.Age</td>
+                        <td>@loan.BirthDate.ToShortDateString()</td>
+                        <td>@loan.Sex</td>
+                        <td>@loan.ContactNo</td>
+                        <td>@loan.Email</td>
+                        <td>@loan.Occupation</td>
+                        <td>@loan.CivilStatus</td>
+                        <td>@loan.PreferredPaymentFrequency</td>
+                        <td>
+                            <form method="post" asp-page-handler="Approve" asp-route-id="@loan.Id" style="display:inline">
+                                <button type="submit" class="btn btn-sm btn-success" @(loan.Status == "Pending" ? "" : "disabled")>Approve</button>
+                            </form>
+                            <form method="post" asp-page-handler="Reject" asp-route-id="@loan.Id" style="display:inline">
+                                <button type="submit" class="btn btn-sm btn-danger" @(loan.Status == "Pending" ? "" : "disabled")>Reject</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    @if (Model.TotalPages > 1)
+    {
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center mt-2">
+                @for (int i = 1; i <= Model.TotalPages; i++)
+                {
+                    <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                        <a class="page-link custom-page-link @(i == Model.CurrentPage ? "selected-page" : "")" href="?currentPage=@i">@i</a>
+                    </li>
+                }
+
+                @if (Model.CurrentPage != Model.TotalPages)
+                {
+                    <li class="page-item">
+                        <a class="page-link custom-page-link" href="?currentPage=@Model.TotalPages">Last</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    }
+</div>
+
+@section Scripts {
+    <style>
+        .pagination .custom-page-link {
+            background-color: #1f1f1f;
+            color: #ccc;
+            border: none;
+            border-radius: 6px;
+            margin: 0 3px;
+            padding: 8px 14px;
+            font-weight: 500;
         }
-    </tbody>
-</table>
+
+        .pagination .custom-page-link:hover {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .pagination .selected-page {
+            background-color: #00bcd4 !important;
+            color: #fff !important;
+        }
+
+        .pagination .page-item.active .custom-page-link {
+            background-color: #00bcd4;
+            color: white;
+        }
+    </style>
+}

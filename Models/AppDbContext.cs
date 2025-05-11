@@ -60,13 +60,32 @@ namespace HouseApp.Models
     public class Loan
     {
         public int Id { get; set; }
-        public int HouseId { get; set; }
+        public int? HouseId { get; set; }
         public int UserId { get; set; }
         public decimal Amount { get; set; }
         public double InterestRate { get; set; }
         public int TermMonths { get; set; }
         public DateTime ApplicationDate { get; set; }
         public string? Status { get; set; }  // Pending, Approved, Rejected
+
+        // Extended fields from loan registration form
+        public string FirstName { get; set; }
+        public string MiddleName { get; set; }
+        public string LastName { get; set; }
+        public string Suffix { get; set; }
+        public string Province { get; set; }
+        public string Municipality { get; set; }
+        public string Barangay { get; set; }
+        public string StreetNo { get; set; }
+        public string HouseNo { get; set; }
+        public int Age { get; set; }
+        public DateTime BirthDate { get; set; }
+        public string Sex { get; set; }
+        public string ContactNo { get; set; }
+        public string Email { get; set; }
+        public string Occupation { get; set; }
+        public string CivilStatus { get; set; }
+        public string PreferredPaymentFrequency { get; set; }
 
         public House House { get; set; }
         public User User { get; set; }

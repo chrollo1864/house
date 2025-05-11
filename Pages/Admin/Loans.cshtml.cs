@@ -1,23 +1,61 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using HouseApp.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Linq;
 
 public class AdminLoansModel : PageModel
 {
-    public List<Loan> Loans { get; set; } = new()
-    {
-        new Loan { Id = 1, UserName = "John Doe", Amount = 50000, Status = "Pending" },
-        new Loan { Id = 2, UserName = "Jane Smith", Amount = 75000, Status = "Approved" }
-    };
+    private readonly AppDbContext _context;
 
-    public void OnGet()
+    public AdminLoansModel(AppDbContext context)
     {
+        _context = context;
     }
-}
 
-public class Loan
-{
-    public int Id { get; set; }
-    public required string UserName { get; set; }
-    public decimal Amount { get; set; }
-    public required string Status { get; set; }
+    public List<Loan> Loans { get; set; }
+
+    public int CurrentPage { get; set; } = 1;
+    public int TotalPages { get; set; }
+    public int PageSize { get; set; } = 10;
+
+    public async Task OnGetAsync(int? currentPage)
+    {
+        CurrentPage = currentPage ?? 1;
+        var totalLoans = await _context.Loans.CountAsync();
+        TotalPages = (int)System.Math.Ceiling(totalLoans / (double)PageSize);
+
+        Loans = await _context.Loans
+            .Include(l => l.User)
+            .OrderBy(l => l.Id)
+            .Skip((CurrentPage - 1) * PageSize)
+            .Take(PageSize)
+            .ToListAsync();
+    }
+
+    public async Task<IActionResult> OnPostApproveAsync(int id)
+    {
+        var loan = await _context.Loans.FindAsync(id);
+        if (loan == null)
+        {
+            return NotFound();
+        }
+        loan.Status = "Approved";
+        await _context.SaveChangesAsync();
+        return RedirectToPage();
+    }
+
+    public async Task<IActionResult> OnPostRejectAsync(int id)
+    {
+        var loan = await _context.Loans.FindAsync(id);
+        if (loan == null)
+        {
+            return NotFound();
+        }
+        loan.Status = "Rejected";
+        await _context.SaveChangesAsync();
+        return RedirectToPage();
+    }
 }
